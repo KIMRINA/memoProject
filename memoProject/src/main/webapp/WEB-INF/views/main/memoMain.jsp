@@ -67,7 +67,7 @@
 
 <script>
 
-// 회원가입 이동 모달
+	// 모달 이동
 	function goJoin() {
 		$('#myModal').show();
 	};
@@ -75,6 +75,13 @@
 	function close_pop(flag) {
 		$('#myModal').hide();
 	};
+	
+	
+	// 회원가입 이동
+	function goJoin() {
+		window.location.href = "/member/memberJoin1";
+	};
+	
 </script>
 
 </body>

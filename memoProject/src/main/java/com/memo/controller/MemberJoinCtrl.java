@@ -30,7 +30,7 @@ public class MemberJoinCtrl {
 	
 	@GetMapping("/member/memberJoinForm")
 	public String memberForm(MemberDTO dto) throws Exception {
-		log.info("** memberJoin1 **");
+		log.info("** memberJoinForm **");
 		return ViewPage;
 	}
 	
@@ -38,7 +38,7 @@ public class MemberJoinCtrl {
 	@PostMapping("/member/memberJoin")
 	public String memberInsert(@ModelAttribute(name = "MemberDTO") MemberDTO dto, Model model)
 			throws Exception {
-		log.info("** memberJoin2 **");
+		log.info("** memberJoin **");
 
 //		// username 중복 체크
 //		if (service.userNameCheck(dto.getUsername())) {
@@ -66,6 +66,11 @@ public class MemberJoinCtrl {
 		service.createUser(dto);
 
 		return "redirect:/";
+	}
+	
+	@GetMapping("/member/memberJoin1")
+	public void memberJoin1() {
+		log.info("** memberJoin1 **");
 	}
 	
 	
