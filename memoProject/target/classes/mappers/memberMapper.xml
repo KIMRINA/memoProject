@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.memo.mappers.MemberMapper">
+
+<!-- spring security -->
+    <select id="readUser" parameterType="String" resultType="MemberDTO">
+		select MEM_EMAIL as username, MEM_PW as password,
+		 	   MEM_ENABLED as isEnabled, MEM_AUTHORITY as authorities
+		from member
+		where mem_email = #{username}
+    </select>
+    
+    <!-- <select id="readUser" parameterType="String" resultType="MemberDTO">
+        SELECT * FROM users WHERE username = #{username}
+    </select> -->
+    
+    <select id="readAuth" parameterType="String" resultType="String">
+        SELECT MEM_AUTHORITY as authorities
+        FROM member 
+        WHERE mem_email = #{username}
+    </select>
+
+    <select id="readAuthority" parameterType="String"
+        resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
+        SELECT MEM_AUTHORITY as authorities
+        FROM member 
+        WHERE mem_email = #{username}
+    </select>
+ 
+    <insert id="createUser" parameterType="MemberDTO">
+    	insert into member(MEM_NO, MEM_EMAIL, MEM_NAME,
+    					   MEM_TYPE, MEM_ACCESS_TOKEN, MEM_PW,
+    					   MEM_PHONE, MEM_GENDER, MEM_ENABLED,
+    					   MEM_AUTHORITY)
+		values(member_seq.nextval, #{username}, #{mem_name}, 1,1, 
+			   #{password},#{mem_phone},#{mem_gender},1,'ROLE_MEMBER')
+    </insert>
+    
+    <select id="userNameCheck" resultType="int" >
+        select count(*) from member  WHERE  mem_email =#{username}
+    </select>
+ 
+    <insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">
+        INSERT INTO authority (username, authority_name)
+        VALUES
+        <foreach item="authority" index="index" collection="authorities" separator=",">
+            (#{username}, #{authority})
+        </foreach>
+    </insert>
+    
+    <delete id="deleteAuthority" parameterType="String">
+        DELETE FROM authority WHERE username = #{username}
+    </delete>
+
+
+
+</mapper>
