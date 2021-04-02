@@ -1,5 +1,8 @@
 package com.memo.controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.memo.dto.MemberDTO;
 import com.memo.service.MemberService;
@@ -73,6 +78,25 @@ public class MemberJoinCtrl {
 		log.info("** memberJoin1 **");
 	}
 	
+	@GetMapping("/member/memberJoinTerms1")
+	public void memberJoinTerms1() {
+		log.info("** memberJoinTerms1 **");
+	}
+	
+	@GetMapping("/member/memberJoinTerms2")
+	public void memberJoinTerms2() {
+		log.info("** memberJoinTerms2 **");
+	}
+	
+	
+	// id체크 ajax
+	@GetMapping("/member/idCheck")
+	@ResponseBody
+	public int idCheck(@RequestParam("username") String username) {
+		log.info("** memberidCheck **");
+		return service.userNameCheck(username);
+	}
+
 	
 
 }

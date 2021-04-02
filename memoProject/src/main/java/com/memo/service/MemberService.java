@@ -30,6 +30,6 @@ public interface MemberService extends UserDetailsService {
 
 	public PasswordEncoder passwordEncoder(); // PasswordEncoder를 리턴해 줄 메소드도 추가.
 
-	public boolean userNameCheck(String username) throws Exception;
+	public int userNameCheck(String username);
 	
 }

@@ -94,7 +94,16 @@ public class MemberServiceImpl implements MemberService {
         //String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
  
         //member.setPassword(encodedPassword);
+
+		// memberJoinForm에서 input name 중복되어 구분자로 저장되는것을 @로 변경
+		String username = member.getUsername();
+		String nameReplace = username.replace(',', '@');
 		
+		String mem_phone = member.getMem_phone();
+		String phoneReplace = mem_phone.replace(',', '-');
+		
+		member.setUsername(nameReplace);
+		member.setMem_phone(phoneReplace);
 		member.setEnabled(true);
 		member.setAccountNonExpired(true);
 		member.setAccountNonLocked(true);
@@ -117,18 +126,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean userNameCheck(String username) throws Exception {
+	public int userNameCheck(String username) {
 		
-		boolean isCheck=false;
-        int check = dao.userNameCheck(username);
-        // 0보다 크면 중복이 존재 true 반환
-        if(check>0) {
-            isCheck=true;
-        }else {
-            // 0이면 중복 없음.
-            isCheck=false;
-        }
-        return isCheck;
+//		boolean isCheck=false;
+//        int check = dao.userNameCheck(username);
+//        // 0보다 크면 중복이 존재 true 반환
+//        if(check>0) {
+//            isCheck=true;
+//        }else {
+//            // 0이면 중복 없음.
+//            isCheck=false;
+//        }
+//        return isCheck;
+		
+		return dao.userNameCheck(username);
+		
+		
 	}
 
 

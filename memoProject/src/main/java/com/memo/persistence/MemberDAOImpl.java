@@ -57,8 +57,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int userNameCheck(String username) throws Exception {
-		return session.selectOne(namespace+"usersNameCheck", username);
+	public int userNameCheck(String username) {
+		return session.selectOne(namespace+".userNameCheck", username);
 	}
 
 

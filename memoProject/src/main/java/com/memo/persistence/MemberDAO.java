@@ -30,7 +30,7 @@ public interface MemberDAO {
  
     public void createUser(MemberDTO member);
     
-    public int userNameCheck(String username) throws Exception;
+    public int userNameCheck(String username);
  
     public void createAuthority(MemberDTO member);
  

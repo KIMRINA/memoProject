@@ -7,5 +7,7 @@
     <excludes>
         <pattern>/signup</pattern>
         <pattern>/*_pop</pattern>
+        <pattern>/member/memberJoinTerms1</pattern>
+        <pattern>/member/memberJoinTerms2</pattern>
     </excludes>
 </decorators>

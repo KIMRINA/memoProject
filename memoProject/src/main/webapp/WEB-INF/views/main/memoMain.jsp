@@ -36,7 +36,7 @@
 <body>
 
 <!-- 회원가입 모달 -->
-<button onclick="goJoin()">메모등록</button>
+<button onclick="goModal()">메모등록</button>
 <!-- The Modal -->
     <div id="myModal" class="modal">
  
@@ -45,7 +45,7 @@
       	<p><span style="font-size: 14pt;"><b><span style="font-size: 21pt;">메모를 작성하시려면</span></b></span></p>
       	<p><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">회원가입이 필요합니다</span></b></span></p>
       	<div style="background-color:#DDDDDD;padding-bottom: 10px;padding-top: 10px;">
-      		<p style="line-height: 1.5;"><b><span style="font-size: 16pt;">일반회원가입</span></b><button style="text-align: right;">가입하기</button></p>
+      		<p style="line-height: 1.5;"><b><span style="font-size: 16pt;">일반회원가입</span></b><button style="text-align: right;" onclick="goJoin()">가입하기</button></p>
       	</div>
         <p style="text-align: center; line-height: 1.5;"><br /></p>
         <div style="text-align: center; background-color:#DDDDDD;padding-bottom: 25px;padding-top: 25px;">
@@ -68,7 +68,7 @@
 <script>
 
 	// 모달 이동
-	function goJoin() {
+	function goModal() {
 		$('#myModal').show();
 	};
 	//팝업 Close 기능

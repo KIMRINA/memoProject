@@ -98,7 +98,6 @@ body
 {
   margin: 0;
   padding: 0;
-  font-family: 'Nanum Myeongjo', serif;
   
   background-color: rgba( 255, 255, 255, 0.5 );
   
