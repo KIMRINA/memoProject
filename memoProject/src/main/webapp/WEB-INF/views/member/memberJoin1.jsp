@@ -12,7 +12,6 @@
     left: 450px;
     width: 650px;
     height: 100px;
-    background-color: aliceblue;
 }
 #div2 {
 	position: absolute;
@@ -32,37 +31,37 @@
 }
 #p3 {
 	position: relative;
-    top: 5%;
+    top: 10%;
     left: 50px;
     font-size: 15pt;
 }
 #hr1 {
 	width: 90%;
     position: relative;
-    top: 2%;
+    top: 8%;
 }
 #p4 {
 	position: relative;
-    top: 5%;
+    top: 7%;
     left: 50px;
     font-size: 15pt;
 }
 #p5 {
 	position: absolute;
-    top: 72px;
+    top: 77px;
     left: 80%;
     font-size: 10pt;
     cursor:pointer;
 }
 #p6 {
 	position: relative;
-    top: 10%;
+    top: 13%;
     left: 50px;
     font-size: 15pt;
 }
 #p7 {
 	position: absolute;
-    top: 129px;
+    top: 134px;
     left: 80%;
     font-size: 10pt;
     cursor:pointer;
@@ -71,11 +70,72 @@
 	text-align: center;
 }
 
+
+/* 동의하기 버튼 */
+#btn1 {
+  position: relative;
+  height: 45px;
+  width: 200px;
+  margin: 10px 7px;
+  padding: 5px 5px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 2px;
+  color: #383736;
+  border: 2px #383736 solid;
+  border-radius: 4px;
+  text-transform: uppercase;
+  outline: 0;
+  overflow:hidden;
+  z-index: 1;
+  cursor: pointer;
+  transition:         0.08s ease-in;
+  -o-transition:      0.08s ease-in;
+  -ms-transition:     0.08s ease-in;
+  -moz-transition:    0.08s ease-in;
+  -webkit-transition: 0.08s ease-in;
+}
+.slide:after{
+  content:"동의하고 회원가입";
+  position:absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  text-align:center;
+  -webkit-transition: all 400ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide:before {
+  content:"회원가입 →";
+  height:100%;
+  width:100%;
+  position:absolute;
+  color:#383736;
+  text-align: center;
+  left:-100%;
+  opacity: 0;
+  -webkit-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide:hover{
+  background:#383736;
+}
+.slide:hover:before{
+  left:0;
+  opacity:1;
+  color:#fff;
+}
+.slide:hover:after{
+  left:100%;
+  opacity:0;
+}
+
+
 </style>
 </head>
 <body>
 
-<form name="frmJoin" action="/member/memberJoinForm"  onSubmit="return CheckForm(this)">
+<form name="frmJoin" action="/member/memberJoin2"  onSubmit="return CheckForm(this)">
 <div>
 	<div id="div1">
 		<p id="p1" style="font-size: 30pt;"><strong>회원가입</strong></p>
@@ -91,7 +151,7 @@
 			<p id="p7" onclick="window.open('/member/memberJoinTerms2','약관전체보기','width=900,height=450,location=no,status=no,scrollbars=yes');"><U>약관전체보기</U></p>
 		</div>
 		<div id="div4">
-			<button>동의하고 회원가입</button>
+			<button id="btn1" class="slide">&nbsp;</button>
 		</div>
 	</div>
 </div>

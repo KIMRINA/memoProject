@@ -13,7 +13,6 @@
     left: 450px;
     width: 650px;
     height: 100px;
-    background-color: aliceblue;
 }
 #div2 {
 	position: absolute;
@@ -26,15 +25,102 @@
 }
 #div3 {
 	background-color: rgba( 255, 255, 255, 0.5 );
-	height: 450px;
+	height: 480px;
 	position: relative;
     top: -30%;
 }
 #id_check_button {
 	position: absolute;
-    right: 3.4%;
+    right: 2%;
+}
+.form-control {
+	width: 625px;
+	height: 30px;
+}
+.form-control2 {
+	width: 560px;
+	height: 30px;
+}
+.table {
+	position: relative;
+    top: 20px;
+    left: 10px;
 }
 
+
+/* 중복확인 버튼 */
+.custom-btn {
+  width: 140px;
+  height: 35px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  transform: translateY(-7px);
+}
+
+.custom-btn:hover {
+    background-color: #2EE59D;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+/* 회원가입 버튼 */
+#reg_submit {
+	position: absolute;
+    top: 103%;
+    left: 36%;
+    
+  height: 45px;
+  width: 150px;
+  margin: 10px 7px;
+  padding: 5px 5px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 2px;
+  color: #383736;
+  border: 2px #383736 solid;
+  border-radius: 4px;
+  text-transform: uppercase;
+  outline: 0;
+  overflow:hidden;
+  z-index: 1;
+  cursor: pointer;
+  transition:         0.08s ease-in;
+  -o-transition:      0.08s ease-in;
+  -ms-transition:     0.08s ease-in;
+  -moz-transition:    0.08s ease-in;
+  -webkit-transition: 0.08s ease-in;
+
+}
+#reg_submit:disabled {
+	color: #bcbcbc;
+  border: 2px #bcbcbc solid;
+  cursor: not-allowed;
+}
+#reg_submit:hover{
+  background:#383736;
+  color:white;
+}
+#reg_submit:hover:before{
+  left:0;
+  opacity:1;
+  color:#fff;
+}
+#reg_submit:hover:after{
+  left:100%;
+  opacity:0;
+}
 
 </style>
 </head>
@@ -188,14 +274,14 @@ $(document).ready(function(){
                     </tr> --%>
                     <tr>
 						<td>
-							이메일 <span class="em_red">*</span>
+							<b>이메일</b>
 						</td>
 					</tr>
 					<tr>
 						<td id="td2">
-							<input type="text" id="email_id" name="username" class="form_w200" title="이메일 아이디" placeholder="이메일" maxlength="18" > @ 
-							<input type="text" id="email_domain" name="username" class="form_w200" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18"> 
-							<select class="select" title="이메일 도메인 주소 선택" onclick="setEmailDomain(this.value);return false;">
+							<input type="text" id="email_id" name="username" class="form_w200" title="이메일 아이디" placeholder="이메일" maxlength="18" style="height: 30px;"> @ 
+							<input type="text" id="email_domain" name="username" class="form_w200" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18" style="height: 30px;"> 
+							<select class="select" title="이메일 도메인 주소 선택" onclick="setEmailDomain(this.value);return false;" style="height: 30px;">
 							    <option value="">-선택-</option>
 							    <option value="naver.com">naver.com</option>
 							    <option value="gmail.com">gmail.com</option>
@@ -205,7 +291,7 @@ $(document).ready(function(){
 							    <option value="nate.com">nate.com</option>
 							    <option value="yahoo.com">yahoo.com</option>
 							</select>
-							<input type="button" value="중복확인" id="id_check_button" />
+							<input type="button" value="중복확인" class="custom-btn" id="id_check_button" />
 						</td>
 					</tr>
 					<tr>
@@ -215,7 +301,7 @@ $(document).ready(function(){
 					</tr>
  
                     <tr>
-                        <td>비밀번호</td>
+                        <td><b>비밀번호</b></td>
                     </tr>
                     <tr>
                     	<td>
@@ -229,7 +315,7 @@ $(document).ready(function(){
 					</tr>
  
                     <tr>
-                        <td>비밀번호확인</td>
+                        <td><b>비밀번호확인</b></td>
                     </tr>
                     <tr>
                     	<td><input type="password" id="mem_pw_check" name="pwCheck" class="form-control" placeholder="비밀번호 확인" />
@@ -242,18 +328,18 @@ $(document).ready(function(){
 					</tr>
  
                     <tr>
-                        <td>닉네임</td>
+                        <td><b>닉네임</b></td>
                     </tr>
                     <tr>
                     	<td><input type="text" id="mem_name" name="mem_name" class="form-control" />
                     </tr>
  
                     <tr>
-                        <td>휴대폰번호</td>
+                        <td><b>휴대폰번호</b></td>
                     </tr>
                     <tr>
                     	<td>
-                    		<select class="select" title="국번 선택" name="mem_phone">
+                    		<select class="select" title="국번 선택" name="mem_phone" style="height: 30px;">
 							    <option value="">-선택-</option>
 							    <option value="010">010</option>
 							    <option value="011">011</option>
@@ -262,7 +348,7 @@ $(document).ready(function(){
 							    <option value="018">018</option>
 							    <option value="019">019</option>
 							</select>
-                    		<input type="text" id="mem_phone" name="mem_phone" class="form-control" /> <br>
+                    		<input type="text" id="mem_phone" name="mem_phone" class="form-control2" /> <br>
                         </td>
                     </tr>
                     <tr>
@@ -272,7 +358,7 @@ $(document).ready(function(){
 					</tr>
  
                     <tr>
-                        <td>성별</td>
+                        <td><b>성별</b></td>
                     </tr>
                     <tr>
                     	<td>
@@ -338,14 +424,8 @@ $(document).ready(function(){
 	});
 	
 	
-	
-	
-	
-	
  }); // end of script
  
-
-
 </script>
 
 </body>

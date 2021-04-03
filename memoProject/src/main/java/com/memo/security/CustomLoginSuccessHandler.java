@@ -35,8 +35,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		System.out.println("name : " + auth.getName());
 		
 		//인증된 사용자의 정보를 추출
-		//MemberDTO dto = (MemberDTO) auth.getPrincipal();
-		//System.out.println("인증후=>"+dto);
+		MemberDTO dto = (MemberDTO) auth.getPrincipal();
+		System.out.println("인증후=>"+dto);
 		
 		//권한리스트를 추출
 		Collection<GrantedAuthority> authlist = (Collection<GrantedAuthority>) auth.getAuthorities();
@@ -55,11 +55,15 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			if(authority.getAuthority().equals("ROLE_ADMIN")) {
 				url="/member/admin";
 			} else if(authority.getAuthority().equals("ROLE_MEMBER")) {
-				url="/member/member";
+				url="/main/memoMain";
 			}
 		}
 		
 		request.getSession().setAttribute("msg", url);
+		request.getSession().setAttribute("login", dto);
+		request.getSession().setAttribute("memPhone", dto.getMem_phone());		// 세션고객번호
+		request.getSession().setAttribute("memName", dto.getMem_name());	// 세션고객이름
+		
 		response.sendRedirect(url);
 
 //		List<String> roleNames = new ArrayList<>();

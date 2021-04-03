@@ -279,9 +279,10 @@ body
 			      
 			      <sec:authorize access="isAnonymous()">
 			      	<a href="/member/customLogin"><li>로그인</li></a>
-			      	<a href="/member/memberJoinForm"><li>회원가입</li></a>
+			      	<a href="/member/memberJoin2"><li>회원가입</li></a>
 			      </sec:authorize>
 			      <sec:authorize access="isAuthenticated()">
+			      	<a href="/member/memberModify1"><li>회원정보수정</li></a>
 			      	<a href="#" onclick="document.getElementById('logout-form').submit();"><li>로그아웃</li></a>
 			      </sec:authorize>
 			    </ul>

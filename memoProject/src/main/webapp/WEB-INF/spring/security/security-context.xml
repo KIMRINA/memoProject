@@ -27,9 +27,9 @@
 						 login-processing-url="/login"
 						 authentication-success-handler-ref="customLoginSuccess" />
 	
-	<security:logout logout-url = "/member/customLogout" invalidate-session = "true"/>
+	<security:logout logout-url = "/member/customLogout" invalidate-session = "false"/>
 	
-	<!-- <security:csrf disabled="true" /> -->
+	<security:csrf disabled="true" />
 	
 </security:http>
 

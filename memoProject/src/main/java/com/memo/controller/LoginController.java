@@ -48,7 +48,7 @@ public class LoginController {
 		}
 		
 		if(logout != null) {
-			model.addAttribute("logout", "Logout!!");
+			model.addAttribute("logout", "로그아웃 되었습니다.");
 		}
 	}
 	

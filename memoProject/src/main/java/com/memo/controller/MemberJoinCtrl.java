@@ -1,15 +1,11 @@
 package com.memo.controller;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.inject.Inject;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,11 +27,11 @@ public class MemberJoinCtrl {
 	@Inject
 	BCryptPasswordEncoder pwEncoder;
 	
-	private static final String ViewPage = "member/memberJoinForm";
+	private static final String ViewPage = "member/memberJoin2";
 	
-	@GetMapping("/member/memberJoinForm")
+	@GetMapping("/member/memberJoin2")
 	public String memberForm(MemberDTO dto) throws Exception {
-		log.info("** memberJoinForm **");
+		log.info("** memberJoin2 **");
 		return ViewPage;
 	}
 	
@@ -70,12 +66,18 @@ public class MemberJoinCtrl {
 		log.info("null뜨는 이유가 뭘까: " + dto);
 		service.createUser(dto);
 
-		return "redirect:/";
+		// return "redirect:/";
+		return "/member/memberJoin3";
 	}
 	
 	@GetMapping("/member/memberJoin1")
 	public void memberJoin1() {
 		log.info("** memberJoin1 **");
+	}
+	
+	@GetMapping("/member/memberJoin3")
+	public void memberJoin3() {
+		log.info("** memberJoin3 **");
 	}
 	
 	@GetMapping("/member/memberJoinTerms1")
