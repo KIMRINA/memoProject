@@ -25,6 +25,8 @@ public interface MemberService extends UserDetailsService {
 	public MemberDTO readUser(String username);
 
 	public void createUser(MemberDTO member);
+	
+	public void updateUser(MemberDTO member);
 
 	public void deleteUser(String username);
 

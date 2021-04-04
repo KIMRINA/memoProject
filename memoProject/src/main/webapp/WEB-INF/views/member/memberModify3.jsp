@@ -105,7 +105,7 @@
 		</div>
 	
    		<div id="div3">
-            <form name="formMod" method="post" action="" onSubmit="return CheckForm(this)">
+            <form name="formMod" method="post" action="/member/memberMod" onSubmit="return CheckForm(this)">
                 <table class="table">
                     <tr>
 						<td>
@@ -150,8 +150,7 @@
                     </tr>
                     <tr>
                     	<td>
-                    		<sec:authentication property="principal.mem_name"/>
-                    		<input type="text" id="mem_name" name="mem_name" value="${mem_name}" class="form-control" />
+                    		<input type="text" id="mem_name" name="mem_name" value="${login.mem_name}" class="form-control" />
                     	</td>
                     </tr>
  
@@ -160,16 +159,7 @@
                     </tr>
                     <tr>
                     	<td>
-                    		<select class="select" title="국번 선택" name="mem_phone" style="height: 30px;">
-							    <option value="">-선택-</option>
-							    <option value="010">010</option>
-							    <option value="011">011</option>
-							    <option value="016">016</option>
-							    <option value="017">017</option>
-							    <option value="018">018</option>
-							    <option value="019">019</option>
-							</select>
-                    		<input type="text" id="mem_phone" name="mem_phone" value="${login.mem_phone}" class="form-control2" /> <br>
+                    		<input type="text" id="mem_phone" name="mem_phone" value="${login.mem_phone}" class="form-control" /> <br>
                         </td>
                     </tr>
                     <tr>
@@ -183,8 +173,8 @@
                     </tr>
                     <tr>
                     	<td>
-                        	<input type="radio" name="mem_gender" value="1">남&emsp;
-         					<input type="radio" name="mem_gender" value="0" checked>여
+                        	<input type="radio" name="mem_gender" value="1" <c:if test="${login.mem_gender=='1'}">checked="checked"</c:if>>남&emsp;
+         					<input type="radio" name="mem_gender" value="0" <c:if test="${login.mem_gender=='0'}">checked="checked"</c:if>>여
                         </td>
                     </tr>
  
@@ -206,7 +196,7 @@
 
 <script>
 var pw_rule = /^[A-Za-z0-9]{4,12}$/;	// 비밀번호 정규식
-var phone_rule = /^\d{3,4}-\d{4}$/;	// 폰번호 정규식
+var phone_rule = /^\d{3}-\d{3,4}-\d{4}$/;	// 폰번호 정규식
 
 
 $(document).ready(function(){
@@ -276,6 +266,7 @@ $(document).ready(function(){
      return false;
    }
 
+   alert('회원정보 수정이 완료되었습니다.');
 
  }	// end of CheckForm(check)
  

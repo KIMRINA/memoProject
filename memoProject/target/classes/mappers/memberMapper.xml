@@ -8,7 +8,8 @@
 <!-- spring security -->
     <select id="readUser" parameterType="String" resultType="MemberDTO">
 		select MEM_EMAIL as username, MEM_PW as password,
-		 	   MEM_ENABLED as isEnabled, MEM_AUTHORITY as authorities
+		 	   MEM_ENABLED as isEnabled, MEM_AUTHORITY as authorities,
+		 	   MEM_NO, MEM_NAME, MEM_PHONE, MEM_GENDER
 		from member
 		where mem_email = #{username}
     </select>
@@ -50,6 +51,12 @@
             (#{username}, #{authority})
         </foreach>
     </insert>
+    
+    <update id="updateUser" parameterType="MemberDTO">
+    	update member
+		set MEM_PW=#{password}, MEM_NAME=#{mem_name}, MEM_PHONE=#{mem_phone}, MEM_GENDER=#{mem_gender}
+		where MEM_EMAIL = #{username}
+    </update>
     
     <delete id="deleteAuthority" parameterType="String">
         DELETE FROM authority WHERE username = #{username}

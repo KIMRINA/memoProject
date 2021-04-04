@@ -1,7 +1,10 @@
 package com.memo.controller;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,18 +79,41 @@ public class MemberCRUDCtrl {
 		log.info("** memberModify3 **");
 		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        
-        String id = userDetails.getUsername();
- 
-        dto.setMem_name(id);
-        //레코드 저장
-        service.readUser(id);
+		UserDetails userDetails = (UserDetails)principal;
 		
+		String username = userDetails.getUsername();
+		
+		MemberDTO login = (MemberDTO)session.getAttribute("login");
+		MemberDTO after = service.readUser(username);
+		
+		log.info("로그인 세션 확인  : " + login.toString());
+		log.info("가져온거 확인  : " + after.toString());
+		
+// 
+//        dto.setMem_name(id);
+//        //레코드 저장
+//        service.readUser(id);
 	}
 	
-	
-	
+	@PostMapping("/member/memberMod")
+	public String memberModify(MemberDTO dto, HttpServletResponse response) throws Exception {
+		log.info("** memberMod **");
+		
+		// 비밀번호 암호화 작업
+		if (StringUtils.hasText(dto.getPassword())) {
+			String bCryptString = pwEncoder.encode(dto.getPassword());
+			dto.setPassword(bCryptString);
+		}
+		
+		service.updateUser(dto);
+		
+//		response.getWriter().append("<script>")
+//							.append("alert('회원정보 수정이 완료되었습니다.');")
+//							.append("location.href='/member/memberModify1';")
+//							.append("</script>");
+		
+		return "redirect:/member/memberModify1";
+	}
 	
 	
 

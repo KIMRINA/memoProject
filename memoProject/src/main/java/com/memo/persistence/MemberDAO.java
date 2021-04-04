@@ -33,6 +33,8 @@ public interface MemberDAO {
     public int userNameCheck(String username);
  
     public void createAuthority(MemberDTO member);
+    
+    public void updateUser(MemberDTO member);
  
     public void deleteUser(String username);
  

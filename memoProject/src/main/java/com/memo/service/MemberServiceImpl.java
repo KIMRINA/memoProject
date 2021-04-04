@@ -111,7 +111,6 @@ public class MemberServiceImpl implements MemberService {
 
         dao.createUser(member);
         // dao.createAuthority(member);
-
 	}
 
 	@Override
@@ -140,7 +139,11 @@ public class MemberServiceImpl implements MemberService {
 //        return isCheck;
 		
 		return dao.userNameCheck(username);
-		
+	}
+
+	@Override
+	public void updateUser(MemberDTO member) {
+        dao.updateUser(member);
 		
 	}
 
