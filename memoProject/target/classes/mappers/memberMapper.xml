@@ -61,6 +61,11 @@
     <delete id="deleteAuthority" parameterType="String">
         DELETE FROM authority WHERE username = #{username}
     </delete>
+    
+    <delete id="deleteUser" parameterType="MemberDTO">
+		DELETE FROM member
+		WHERE MEM_EMAIL = #{username}
+	</delete>
 
 
 

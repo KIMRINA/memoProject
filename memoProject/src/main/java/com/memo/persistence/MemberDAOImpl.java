@@ -39,20 +39,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void createAuthority(MemberDTO member) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteUser(String username) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteAuthority(String username) {
-		// TODO Auto-generated method stub
+	public void deleteUser(MemberDTO member) {
+		session.delete(namespace + ".deleteUser", member);
 		
 	}
 
@@ -64,6 +52,18 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void updateUser(MemberDTO member) {
 		session.update(namespace+".updateUser", member);
+		
+	}
+	
+	@Override
+	public void createAuthority(MemberDTO member) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void deleteAuthority(String username) {
+		// TODO Auto-generated method stub
 		
 	}
 

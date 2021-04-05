@@ -19,12 +19,12 @@
 }
 #div2 {
 	position: absolute;
-    top: 50px;
-    left: 330px;
+    top: 73px;
+    right: 1%;
 }
 
 #p2 {
-	font-size: 13pt;
+	font-size: 11pt;
 }
 #div3 {
 	background-color: rgba( 255, 255, 255, 0.5 );
@@ -102,6 +102,7 @@
 	<div id="div1">
 		<p id="p1" style="font-size: 30pt;"><strong>회원정보수정</strong></p>
 		<div id="div2">
+			<a id="p2" href="/member/memberDelete1">회원탈퇴</a>
 		</div>
 	
    		<div id="div3">

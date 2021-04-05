@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import com.memo.dto.MemberDTO;
-import com.memo.service.MemberServiceImpl;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	

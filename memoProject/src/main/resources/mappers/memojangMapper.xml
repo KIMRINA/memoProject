@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.memo.mappers.MemojangMapper">
+	
+	<insert id="memoCreate">
+		insert into memojang(MEMO_NO, MEM_NO, MEM_EMAIL, MEMO_NAME, MEMO_TITLE, 
+							 MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN)
+		values(memojang_seq.nextval, #{MEM_NO}, #{username}, #{MEM_NAME}, #{MEMO_TITLE},
+				#{MEMO_CONTENTS}, sysdate, 0, #{MEMO_OPEN})
+	</insert>
+	
+	<select id="memoOneRead" resultType="MemojangVO">
+		select MEMO_NO, MEM_NO, MEM_EMAIL as username, MEMO_NAME, MEMO_TITLE,
+			   MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN
+		from memojang
+		where MEMO_NO = #{MEMO_NO}
+	</select>
+	
+	<update id="memoUpdate">
+		update memojang
+		set MEMO_TITLE=#{MEMO_TITLE}, MEMO_CONTENTS=#{MEMO_CONTENTS}, MEMO_OPEN=#{MEMO_OPEN}
+		where MEMO_NO = #{MEMO_NO}
+	</update>
+	
+	<delete id="memoDelete">
+		delete from memojang
+		where MEMO_NO=#{MEMO_NO}
+	</delete>
+	
+	<select id="memoListAll" resultType="MemojangVO">
+		select MEMO_NO, MEM_NO, MEM_EMAIL as username, MEMO_NAME, MEMO_TITLE,
+			   MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN
+		from memojang
+		where MEM_NO=#{MEM_NO}
+		order by MEMO_NO desc, MEMO_WRITEDATE desc
+	</select>
+	
+	<update id="updateViewCnt">
+		update memojang
+		set MEMO_HITS = MEMO_HITS + 1
+		where MEMO_NO = #{MEMO_NO}
+	</update>
+	
+	
+	<insert id="addAttach">
+		insert into image(IMAGE_NO, MEMO_NO, MEM_NO, IMAGE_NAME)
+		values (memojang_seq.nextval, #{MEMO_NO}, #{MEM_NO}, #{IMAGE_NAME})
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+		select IMAGE_NAME
+		from image
+		where MEMO_NO = #{MEMO_NO}
+	</select>
+	
+	<delete id="deleteAttach">
+		delete from image
+		where MEMO_NO = #{MEMO_NO}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into image(IMAGE_NO, MEMO_NO, MEM_NO, IMAGE_NAME)
+		values (memojang_seq.nextval, #{MEMO_NO}, #{MEM_NO}, #{IMAGE_NAME})
+	</insert>
+	
+
+
+
+</mapper>

@@ -3,5 +3,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="MemberDTO" type="com.memo.dto.MemberDTO" />
+		<typeAlias alias="MemojangVO" type="com.memo.domain.MemojangVO" />
 	</typeAliases>
 </configuration>

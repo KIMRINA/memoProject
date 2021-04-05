@@ -32,12 +32,12 @@ public interface MemberDAO {
     
     public int userNameCheck(String username);
  
-    public void createAuthority(MemberDTO member);
-    
     public void updateUser(MemberDTO member);
  
-    public void deleteUser(String username);
+    public void deleteUser(MemberDTO member);
  
+    public void createAuthority(MemberDTO member);
+
     public void deleteAuthority(String username);
 
 

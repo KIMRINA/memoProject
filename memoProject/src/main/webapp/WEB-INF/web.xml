@@ -3,6 +3,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+	<!-- 애플리케이션의 모든 요청을 스프링 시큐리티에서 처리하도록 하는 필터 -->
+	<!-- DelegatingFilterProxy서버가 돌아가면서 스프링시큐리티에서 처리를 하게 함 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- The definition of the Root Spring Container shared by all Servlets 
 		and Filters -->
 	<context-param>
@@ -47,17 +59,6 @@
 		</listener-class>
 	</listener>
 
-	<!-- 애플리케이션의 모든 요청을 스프링 시큐리티에서 처리하도록 하는 필터 -->
-	<!-- DelegatingFilterProxy서버가 돌아가면서 스프링시큐리티에서 처리를 하게 함 -->
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
-		</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 
 	<!-- 한글 처리를 위한 인코딩 필터 -->
 	<filter>

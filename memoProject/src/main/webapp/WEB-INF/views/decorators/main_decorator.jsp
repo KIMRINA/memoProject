@@ -22,9 +22,7 @@
 	<style>
 	
 /* div */
-.ex-layout{ 
-	background-image: url('https://www.myfreetextures.com/wp-content/uploads/2014/11/wooden-cork-texture.jpg');
-	}
+	
 .globalmenu{
 		width: 1506px;
 		height: 190px;
@@ -55,7 +53,7 @@
 	}
 	.main .content .article{
 		width: 1506px;
-		height: 650px;
+		height: 850px;
 		border: 2px solid blue;
 		background-color: rgba( 255, 255, 255, 0.3 );
 	}
@@ -100,7 +98,7 @@ body
   padding: 0;
   
   background-color: rgba( 255, 255, 255, 0.5 );
-  
+  background-image: url('https://www.myfreetextures.com/wp-content/uploads/2014/11/wooden-cork-texture.jpg');
 }
 
 #menuToggle
@@ -275,7 +273,7 @@ body
 			    
 			    <ul id="menu">
 			      <a href="#"><li>타인메모<br>모아보기</li></a>
-			      <a href="#"><li>나의메모<br>모아보기</li></a>
+			      <a href="/mymemo/mymemoDefaultAll"><li>나의메모<br>모아보기</li></a>
 			      
 			      <sec:authorize access="isAnonymous()">
 			      	<a href="/member/customLogin"><li>로그인</li></a>

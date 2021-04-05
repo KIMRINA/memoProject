@@ -1,4 +1,4 @@
-package com.memo.service;
+package com.memo.security;
 
 import java.util.Collection;
 
@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.memo.dto.MemberDTO;
 import com.memo.persistence.MemberDAO;
-import com.memo.security.CustomLoginSuccessHandler;
-import com.memo.security.SHA256Encryption;
+import com.memo.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
-	@Resource
+	@Autowired
 	private MemberDAO dao;
 	
 	/*
@@ -114,9 +113,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void deleteUser(String username) {
-		dao.deleteUser(username);
-		dao.deleteAuthority(username);
+	public void deleteUser(MemberDTO member) {
+		dao.deleteUser(member);
 	}
 
 	@Override

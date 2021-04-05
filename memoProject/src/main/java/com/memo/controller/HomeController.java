@@ -37,10 +37,5 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("/main/memoMain")
-	public void main() {
-		logger.info("main");
-	}
-	
 	
 }

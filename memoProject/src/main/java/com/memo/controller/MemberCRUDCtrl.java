@@ -116,5 +116,25 @@ public class MemberCRUDCtrl {
 	}
 	
 	
+	@GetMapping("/member/memberDelete1")
+	public void memberDelete1() {
+		log.info("** memberDelete1 **");
+	}
+	
+	@PostMapping("/member/memberDelete")
+	public String memberDelete(MemberDTO dto, HttpSession session) {
+		log.info("** memberDelete **");
+		service.deleteUser(dto);
+		session.invalidate();
+		
+		return "redirect:/member/memberDelete2";
+	}
+	
+	@GetMapping("/member/memberDelete2")
+	public void memberDelete2() {
+		log.info("** memberDelete2 **");
+	}
+	
+	
 
 }

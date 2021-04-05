@@ -9,7 +9,17 @@
 <head>
 <meta charset="UTF-8">
 <title>MemozzangMain</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<meta name="author" content="www.twitter.com/cheeriottis">
+
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Raleway:300,400' rel='stylesheet' type='text/css'>
+
 <style>
   /* The Modal (background) */
   .modal {
@@ -216,15 +226,228 @@
 }
 
 
- 
+/* memo */
+#sticky {
+  position: relative;
+  background-color: #c6f1e7; 
+  display: inline-block;
+  padding: 20px;
+  top: 70px;
+  width: 900px;
+  height: 400px;
+}
+#sticky:hover {
+  background-color: #97cfc2;
+}
+#sticky textarea {
+  border: 0px;
+  min-width: 900px;
+  min-height: 400px;
+  max-width: 488px;
+  max-height: 500px;
+  background-color: transparent;
+  color: #2d2d2d;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 1.5em;
+  line-height: 140%;
+  outline: none
+}
+[draggable=true] {
+    cursor: move;
+}
+#sticky:hover {
+}
+#sticky:before
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 20px;
+  left: 12px;
+  width: 50%;
+  top: 80%;
+  max-width: 300px;
+  background: transparent;
+  box-shadow: 0 20px 10px #999;
+  transform: rotate(-4deg)
+}
+#sticky::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: transparent;
+}
+#sticky::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+#sticky::-webkit-scrollbar-thumb
+{
+	background-color: transparent;
+	border: 0px;
+}
+::-webkit-input-placeholder { 
+  color: #2d2d2d
+}
+::-moz-placeholder {
+  color: #2d2d2d
+}
+:-ms-input-placeholder {
+  color: #2d2d2d
+}
+:-moz-placeholder {
+  color: #2d2d2d
+}
+/* end of memo */
+
+
+/* 버튼 */
+.animate {
+	transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+}
+
+.action-button {
+	position: relative;
+	padding: 15px 50px;
+  	margin: 0px 10px 10px 0px;
+  	float: left;
+	border-radius: 10px;
+	font-family: 'Noto Serif KR', serif;
+	font-size: 20px;
+	color: #FFF;
+	text-decoration: none;	
+}
+
+.blue {
+	background-color: #3498DB;
+	border-bottom: 5px solid #2980B9;
+	text-shadow: 0px -2px #2980B9;
+}
+.action-button:active {
+	transform: translate(0px,5px);
+  -webkit-transform: translate(0px,5px);
+	border-bottom: 1px solid;
+}
+#btnDiv1 {
+	position: absolute;
+    top: 110%;
+    left: 45%;
+}
+/* end of 버튼 */
+
+
+/* 에디터 */
+#toolbar { 
+  background: transparent;
+  border:none;
+  padding: 18px 0 24px
+}
+
+.ql-editor {
+  /* padding: 10px 0 0 !important; */
+  font-weight:300;
+  color: #282625;
+  
+  border: 0px;
+  min-width: 900px;
+  max-width: 488px;
+  max-height: 300px;
+  background-color: transparent;
+  color: #2d2d2d;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 1.5em;
+  line-height: 140%;
+  outline: none;
+}
+
+.ql-container.ql-snow {
+  border:none !important;
+}
+.ql-container {
+	height: 90%;
+	font-size: 16px;
+}
+
 </style>
 
 </head>
 <body>
 
+<!-- memo -->
+<!-- Sticly note-->
+<form name="formMod" method="post" action="/main/memoCreate">
+<div draggable="true" id='sticky' class="notepad">
+  	<div id="toolbar">
+    <span class="ql-formats">
+          <select class="ql-font"></select>
+          <select class="ql-size"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+          <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+          <select class="ql-color"></select>
+          <select class="ql-background"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-script" value="sub"></button>
+          <button class="ql-script" value="super"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-header" value="1"></button>
+          <button class="ql-header" value="2"></button>
+          <button class="ql-blockquote"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+          <button class="ql-indent" value="-1"></button>
+          <button class="ql-indent" value="+1"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-direction" value="rtl"></button>
+          <select class="ql-align"></select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-link"></button>
+          <button class="ql-image"></button>
+          <button class="ql-video"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-clean"></button>
+        </span>
+      </div>
+  	<div id="speech" name="memo_title"></div>
+    <!-- <textarea id="speech" placeholder="여기, 오늘 당신의 메모를 적어보세요." 
+			onfocus="this.placeholder = ''"
+			onblur="this.placeholder = '여기, 오늘 당신의 메모를 적어보세요.'"></textarea> -->
+</div>
+
+<!-- 로그인 했을때 -->
+<sec:authorize access="isAuthenticated()">
+<div id="btnDiv1">
+	<a href="#" class="action-button shadow animate blue" onclick="goCreate()">메모등록</a>
+</div>
+</sec:authorize>
+  </form>
+<!-- end of memo -->
+  
+  
+
+
+
+
 <!-- 회원가입 모달 -->
+<!-- 로그인 안했을때 -->
 <sec:authorize access="isAnonymous()">
-<button onclick="goModal()">메모등록</button>
+<div id="btnDiv1">
+	<a href="#" class="action-button shadow animate blue" onclick="goModal()">메모등록</a>
+</div>
+<!-- <button onclick="goModal()">메모등록</button> -->
 <!-- The Modal -->
     <div id="myModal" class="modal">
  
@@ -250,10 +473,9 @@
     </div>
 </sec:authorize>
         <!--End Modal-->
-        
-<sec:authorize access="isAuthenticated()">
-	<button>메모등록</button>
-</sec:authorize>
+
+
+
 
 
 
@@ -274,6 +496,39 @@
 		window.location.href = "/member/memberJoin1";
 	};
 	
+	function goCreate() {
+		form.action = "/main/memoCreate";
+		form.submit = "";
+		//$('#formMod').submit();
+		//location.href="${pageContext.request.contextPath}/main/memoCreate";
+	}
+	
+	$(function() {
+		
+		// 메모 이동
+		//$("#sticky").draggable();
+	})
+	
+</script>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+  var quill = new Quill('#speech', {
+    theme: 'snow',
+    placeholder: '여기, 오늘 당신의 메모를 적어보세요.',
+    formats : 'Block',
+    modules: {
+      toolbar: '#toolbar'
+    }
+  });
+
+  function addHTML() {
+    var range = quill.getSelection(!quill.hasFocus()); 
+    if (range) {
+      quill.pasteHTML(range.index + range.length, "<br>" + range.index + "&mdash;" + range.length);
+    }
+  }
+
 </script>
 
 </body>

@@ -28,7 +28,7 @@ public interface MemberService extends UserDetailsService {
 	
 	public void updateUser(MemberDTO member);
 
-	public void deleteUser(String username);
+	public void deleteUser(MemberDTO member);
 
 	public PasswordEncoder passwordEncoder(); // PasswordEncoder를 리턴해 줄 메소드도 추가.
 
