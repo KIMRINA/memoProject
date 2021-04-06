@@ -33,7 +33,7 @@
 	.globalmenu .left-menu{
 		float: left;
 		width: 300px;
-		height: 831px;
+		height: 1001px;
 		border: 2px solid red;
 	}
 	.globalmenu .middium-title{
@@ -107,9 +107,7 @@ body
   position: relative;
   top: 80px;
   left: 50px;
-  
-  z-index: 1;
-  
+  z-index: 2;
   -webkit-user-select: none;
   user-select: none;
 }
@@ -136,9 +134,7 @@ body
   position: absolute;
   top: -7px;
   left: -5px;
-  
   cursor: pointer;
-  
   opacity: 0; /* hide this */
   z-index: 2; /* and place it over the hamburger */
   
@@ -273,7 +269,7 @@ body
 			    
 			    <ul id="menu">
 			      <a href="#"><li>타인메모<br>모아보기</li></a>
-			      <a href="/mymemo/mymemoDefaultAll"><li>나의메모<br>모아보기</li></a>
+			      <a href="/mymemo/mymemoDefaultAll?mem_no=${login.mem_no}&page=1&perPageNum=10"><li>나의메모<br>모아보기</li></a>
 			      
 			      <sec:authorize access="isAnonymous()">
 			      	<a href="/member/customLogin"><li>로그인</li></a>
@@ -299,9 +295,16 @@ body
 		</div>
 		
 		<div class="right-home">
+			<sec:authorize access="isAnonymous()">
 			<span style="cursor:pointer;" class="material-icons-outlined" onclick="goMain()">
 				gite
 			</span>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<span style="cursor:pointer;" class="material-icons-outlined" onclick="goLoginMain()">
+				gite
+			</span>
+			</sec:authorize>
 		</div>
 		
 	
@@ -326,6 +329,10 @@ body
 function goMain() {
 	window.location.href = "/main/memoMain";
 };
+
+function goLoginMain() {
+	window.location.href = "/main/loginMain";
+}
 
 </script>
 </body>

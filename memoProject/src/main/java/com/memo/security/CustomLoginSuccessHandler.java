@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
+import com.memo.domain.Criteria;
 import com.memo.dto.MemberDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,14 +56,17 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			if(authority.getAuthority().equals("ROLE_ADMIN")) {
 				url="/member/admin";
 			} else if(authority.getAuthority().equals("ROLE_MEMBER")) {
-				url="/main/memoMain";
+				url="/main/loginMain";
 			}
 		}
+		
+		Criteria cri = new Criteria();
 		
 		request.getSession().setAttribute("msg", url);
 		request.getSession().setAttribute("login", dto);
 		request.getSession().setAttribute("memPhone", dto.getMem_phone());		// 세션고객번호
 		request.getSession().setAttribute("memName", dto.getMem_name());	// 세션고객이름
+		request.getSession().setAttribute("cri", cri);
 		
 		response.sendRedirect(url);
 

@@ -421,24 +421,19 @@
           <button class="ql-clean"></button>
         </span>
       </div>
-  	<div id="speech" name="memo_title"></div>
+  	<div id="speech"></div>
+  	<div>
+  		<input type="radio" name="memo_open" value="0"> 공개
+  		<input type="radio" name="memo_open" value="1"> 비공개
+  	</div>
     <!-- <textarea id="speech" placeholder="여기, 오늘 당신의 메모를 적어보세요." 
 			onfocus="this.placeholder = ''"
 			onblur="this.placeholder = '여기, 오늘 당신의 메모를 적어보세요.'"></textarea> -->
 </div>
 
-<!-- 로그인 했을때 -->
-<sec:authorize access="isAuthenticated()">
-<div id="btnDiv1">
-	<a href="#" class="action-button shadow animate blue" onclick="goCreate()">메모등록</a>
-</div>
-</sec:authorize>
   </form>
 <!-- end of memo -->
   
-  
-
-
 
 
 <!-- 회원가입 모달 -->
@@ -528,6 +523,18 @@
       quill.pasteHTML(range.index + range.length, "<br>" + range.index + "&mdash;" + range.length);
     }
   }
+  
+	//폼(input)에 자동저장
+  quill.on('text-change', function() {
+    var delta = quill.getContents();
+    var text = quill.getText();
+    var justHtml = quill.root.innerHTML;
+
+    $('input[name="memo_contents"]').val(JSON.stringify(justHtml));
+
+    console.log(JSON.stringify(delta['ops']));
+
+  });
 
 </script>
 

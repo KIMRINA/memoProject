@@ -8,8 +8,8 @@
 	<insert id="memoCreate">
 		insert into memojang(MEMO_NO, MEM_NO, MEM_EMAIL, MEMO_NAME, MEMO_TITLE, 
 							 MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN)
-		values(memojang_seq.nextval, #{MEM_NO}, #{username}, #{MEM_NAME}, #{MEMO_TITLE},
-				#{MEMO_CONTENTS}, sysdate, 0, #{MEMO_OPEN})
+		values(memojang_seq.nextval, #{mem_no}, #{username}, #{memo_name}, #{memo_title},
+				#{memo_contents}, sysdate, 0, #{memo_open})
 	</insert>
 	
 	<select id="memoOneRead" resultType="MemojangVO">
@@ -65,6 +65,31 @@
 		insert into image(IMAGE_NO, MEMO_NO, MEM_NO, IMAGE_NAME)
 		values (memojang_seq.nextval, #{MEMO_NO}, #{MEM_NO}, #{IMAGE_NAME})
 	</insert>
+	
+	
+	<select id="listCriteria" resultType="MemojangVO">
+		<![CDATA[
+		SELECT a.MEMO_NO, a.MEM_NO, a.MEMO_NAME, a.MEMO_TITLE,
+       		   a.MEMO_CONTENTS, a.MEMO_WRITEDATE, a.MEMO_HITS, a.MEMO_OPEN 
+  		FROM(SELECT ROWNUM AS rn,
+            		b.MEMO_NO, b.MEM_NO, b.MEMO_NAME, b.MEMO_TITLE,
+       				b.MEMO_CONTENTS, b.MEMO_WRITEDATE, b.MEMO_HITS, b.MEMO_OPEN 
+             FROM (SELECT MEMO_NO, MEM_NO, MEMO_NAME, MEMO_TITLE,
+                          MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN 
+                   from memojang
+                   where MEM_NO=#{MEM_NO} and MEMO_NO > 0
+                   order by MEMO_NO desc, MEMO_WRITEDATE desc
+		) b) a where rn between #{pageStart} and #{perPageNum}
+		]]>
+	</select>
+	
+	<select id="countPaging" resultType="int">
+		<![CDATA[
+		select count(MEMO_NO)
+		from memojang
+		where MEMO_NO > 0
+		]]>
+	</select>
 	
 
 

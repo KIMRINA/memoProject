@@ -1,6 +1,7 @@
 package com.memo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.memo.domain.Criteria;
 import com.memo.domain.MemojangVO;
+import com.memo.dto.MemberDTO;
 import com.memo.persistence.MemojangDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,13 @@ public class MemojangServiceImpl implements MemojangService {
 	@Transactional
 	@Override
 	public void memoCreate(MemojangVO vo) throws Exception {
+		
+		String contents = vo.getMemo_contents();
+		int idx = contents.indexOf("</p>"); 
+		String setTitile = contents.substring(0, idx);
+		
+		vo.setMemo_title(setTitile+"</p>");
+		
 		dao.memoCreate(vo);
 		
 		String[] files = vo.getFiles();
@@ -72,13 +82,28 @@ public class MemojangServiceImpl implements MemojangService {
 	}
 
 	@Override
-	public List<MemojangVO> memoListAll() throws Exception {
-		return dao.memoListAll();
+	public List<MemojangVO> memoListAll(Integer memNo) throws Exception {
+		return dao.memoListAll(memNo);
 	}
 
 	@Override
 	public List<String> getAttach(Integer memoNo) throws Exception {
 		return dao.getAttach(memoNo);
+	}
+
+	@Override
+	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception {
+		return dao.listCriteria(memNo, pageStart, perPageNum);
+	}
+
+	@Override
+	public int listCountCriteria() throws Exception {
+		return dao.countPaging();
+	}
+
+	@Override
+	public List<MemojangVO> listCriteria(Map<String, String> searchParam) {
+		return dao.listCriteria(searchParam);
 	}
 
 }
