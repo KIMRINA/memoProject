@@ -24,7 +24,7 @@ public interface MemojangDAO {
 	public void deleteAttach(Integer memoNo) throws Exception;
 	public void replaceAttach(String fullName, Integer memoNo) throws Exception;
 	
-	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception;
+	//public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception;
 	public int countPaging() throws Exception;
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam);
 

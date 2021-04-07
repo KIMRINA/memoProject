@@ -31,10 +31,15 @@ public class MemojangServiceImpl implements MemojangService {
 	public void memoCreate(MemojangVO vo) throws Exception {
 		
 		String contents = vo.getMemo_contents();
-		int idx = contents.indexOf("</p>"); 
-		String setTitile = contents.substring(0, idx);
 		
-		vo.setMemo_title(setTitile+"</p>");
+		int idxLast = contents.indexOf("</p>"); 	// 내용에서 제목추출하기위해 </p>까지 추출할라고 선언
+		int idxLast2 = contents.lastIndexOf("\"");	// " <- 이 특수문자 없앨라고 선언
+		
+		String setTitile = contents.substring(4, idxLast);
+		vo.setMemo_title(setTitile);
+		
+		String setContent = contents.substring(1,idxLast2);
+		vo.setMemo_contents(setContent);
 		
 		dao.memoCreate(vo);
 		
@@ -91,10 +96,10 @@ public class MemojangServiceImpl implements MemojangService {
 		return dao.getAttach(memoNo);
 	}
 
-	@Override
-	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception {
-		return dao.listCriteria(memNo, pageStart, perPageNum);
-	}
+//	@Override
+//	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception {
+//		return dao.listCriteria(memNo, pageStart, perPageNum);
+//	}
 
 	@Override
 	public int listCountCriteria() throws Exception {

@@ -16,8 +16,9 @@ public interface MemojangService {
 	public List<MemojangVO> memoListAll(Integer memoNo) throws Exception;
 	public List<String> getAttach(Integer imgNo) throws Exception;
 	
-	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception;
+	//public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception;
 	public int listCountCriteria() throws Exception;
+	
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam);
 
 }

@@ -16,18 +16,18 @@
 		select MEMO_NO, MEM_NO, MEM_EMAIL as username, MEMO_NAME, MEMO_TITLE,
 			   MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN
 		from memojang
-		where MEMO_NO = #{MEMO_NO}
+		where MEMO_NO = #{memo_no}
 	</select>
 	
 	<update id="memoUpdate">
 		update memojang
 		set MEMO_TITLE=#{MEMO_TITLE}, MEMO_CONTENTS=#{MEMO_CONTENTS}, MEMO_OPEN=#{MEMO_OPEN}
-		where MEMO_NO = #{MEMO_NO}
+		where MEMO_NO = #{memo_no}
 	</update>
 	
 	<delete id="memoDelete">
 		delete from memojang
-		where MEMO_NO=#{MEMO_NO}
+		where MEMO_NO=#{memo_no}
 	</delete>
 	
 	<select id="memoListAll" resultType="MemojangVO">
@@ -41,35 +41,35 @@
 	<update id="updateViewCnt">
 		update memojang
 		set MEMO_HITS = MEMO_HITS + 1
-		where MEMO_NO = #{MEMO_NO}
+		where MEMO_NO = #{memo_no}
 	</update>
 	
 	
 	<insert id="addAttach">
 		insert into image(IMAGE_NO, MEMO_NO, MEM_NO, IMAGE_NAME)
-		values (memojang_seq.nextval, #{MEMO_NO}, #{MEM_NO}, #{IMAGE_NAME})
+		values (memojang_seq.nextval, #{memo_no}, #{mem_no}, #{image_name})
 	</insert>
 	
 	<select id="getAttach" resultType="string">
 		select IMAGE_NAME
 		from image
-		where MEMO_NO = #{MEMO_NO}
+		where MEMO_NO = #{memo_no}
 	</select>
 	
 	<delete id="deleteAttach">
 		delete from image
-		where MEMO_NO = #{MEMO_NO}
+		where MEMO_NO = #{memo_no}
 	</delete>
 	
 	<insert id="replaceAttach">
 		insert into image(IMAGE_NO, MEMO_NO, MEM_NO, IMAGE_NAME)
-		values (memojang_seq.nextval, #{MEMO_NO}, #{MEM_NO}, #{IMAGE_NAME})
+		values (memojang_seq.nextval, #{memo_no}, #{mem_no}, #{image_name})
 	</insert>
 	
 	
 	<select id="listCriteria" resultType="MemojangVO">
 		<![CDATA[
-		SELECT a.MEMO_NO, a.MEM_NO, a.MEMO_NAME, a.MEMO_TITLE,
+		SELECT a.MEMO_NO, a.mem_no, a.MEMO_NAME, a.MEMO_TITLE,
        		   a.MEMO_CONTENTS, a.MEMO_WRITEDATE, a.MEMO_HITS, a.MEMO_OPEN 
   		FROM(SELECT ROWNUM AS rn,
             		b.MEMO_NO, b.MEM_NO, b.MEMO_NAME, b.MEMO_TITLE,
@@ -77,9 +77,9 @@
              FROM (SELECT MEMO_NO, MEM_NO, MEMO_NAME, MEMO_TITLE,
                           MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN 
                    from memojang
-                   where MEM_NO=#{MEM_NO} and MEMO_NO > 0
+                   where MEM_NO=#{mem_no} and MEMO_NO > 0
                    order by MEMO_NO desc, MEMO_WRITEDATE desc
-		) b) a where rn between #{pageStart} and #{perPageNum}
+		) b) a where rn between #{startIndex} and #{endIndex}
 		]]>
 	</select>
 	

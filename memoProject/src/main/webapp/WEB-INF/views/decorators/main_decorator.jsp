@@ -269,7 +269,7 @@ body
 			    
 			    <ul id="menu">
 			      <a href="#"><li>타인메모<br>모아보기</li></a>
-			      <a href="/mymemo/mymemoDefaultAll?mem_no=${login.mem_no}&page=1&perPageNum=10"><li>나의메모<br>모아보기</li></a>
+			      <a href="/mymemo/mymemoDefaultAll"><li>나의메모<br>모아보기</li></a>
 			      
 			      <sec:authorize access="isAnonymous()">
 			      	<a href="/member/customLogin"><li>로그인</li></a>

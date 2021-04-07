@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.memo.mappers.CommonMapper">
+  
+  	<select id="selectCompareTime" resultType="int" parameterType="String">
+	<![CDATA[
+		SELECT ((SELECT SYSDATE FROM DUAL) 
+		- (SELECT TO_DATE(#{memo_writedate},'YYYY-MM-DD hh24:mi:ss') FROM DUAL ))*24*60*60
+		FROM DUAL
+	]]>
+	</select>
+  
+  </mapper>

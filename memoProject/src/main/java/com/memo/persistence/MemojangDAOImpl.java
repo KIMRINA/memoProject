@@ -80,16 +80,16 @@ public class MemojangDAOImpl implements MemojangDAO {
 		
 	}
 
-	@Override
-	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception {
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		
-		paramMap.put("MEM_NO", memNo);
-		paramMap.put("pageStart", pageStart);
-		paramMap.put("perPageNum", perPageNum);
-		
-		return session.selectList(namespace + ".listCriteria", paramMap);
-	}
+//	@Override
+//	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception {
+//		Map<String, Object> paramMap = new HashMap<String, Object>();
+//		
+//		paramMap.put("MEM_NO", memNo);
+//		paramMap.put("pageStart", pageStart);
+//		paramMap.put("perPageNum", perPageNum);
+//		
+//		return session.selectList(namespace + ".listCriteria", paramMap);
+//	}
 
 	@Override
 	public int countPaging() throws Exception {
@@ -100,7 +100,6 @@ public class MemojangDAOImpl implements MemojangDAO {
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam) {
 		return session.selectList(namespace + ".listCriteria", searchParam);
 	}
-	
 	
 
 }
