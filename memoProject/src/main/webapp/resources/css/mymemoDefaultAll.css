@@ -517,3 +517,12 @@
     left: 940px;
     width: 300px;
 }
+
+/* 하트 */
+ #heart {
+ 	position: absolute;
+    right: 100px;
+    top: 16px;
+    z-index: 2;
+    cursor: pointer;
+ }

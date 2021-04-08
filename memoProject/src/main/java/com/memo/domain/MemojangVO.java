@@ -19,6 +19,8 @@ public class MemojangVO {
 	private int memo_open;
 	private String[] files;
 	
+	private int book_likecheck;
+	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date memo_writedate;
 }

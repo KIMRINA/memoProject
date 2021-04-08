@@ -4,5 +4,6 @@
 	<typeAliases>
 		<typeAlias alias="MemberDTO" type="com.memo.dto.MemberDTO" />
 		<typeAlias alias="MemojangVO" type="com.memo.domain.MemojangVO" />
+		<typeAlias alias="BookmarkVO" type="com.memo.domain.BookmarkVO" />
 	</typeAliases>
 </configuration>

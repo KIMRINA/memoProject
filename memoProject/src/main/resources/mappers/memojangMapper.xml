@@ -13,15 +13,18 @@
 	</insert>
 	
 	<select id="memoOneRead" resultType="MemojangVO">
-		select MEMO_NO, MEM_NO, MEM_EMAIL as username, MEMO_NAME, MEMO_TITLE,
-			   MEMO_CONTENTS, MEMO_WRITEDATE, MEMO_HITS, MEMO_OPEN
-		from memojang
-		where MEMO_NO = #{memo_no}
+		select m.MEMO_NO, m.MEM_NO, m.MEM_EMAIL as username, 
+		       m.MEMO_NAME, m.MEMO_TITLE, m.MEMO_CONTENTS, 
+		       m.MEMO_WRITEDATE, m.MEMO_HITS, m.MEMO_OPEN,
+		       k.book_likecheck
+		from memojang m full outer join bookmark k
+		on (m.memo_no = k.memo_no)
+		where m.MEMO_NO = #{memo_no}
 	</select>
 	
 	<update id="memoUpdate">
 		update memojang
-		set MEMO_TITLE=#{MEMO_TITLE}, MEMO_CONTENTS=#{MEMO_CONTENTS}, MEMO_OPEN=#{MEMO_OPEN}
+		set MEMO_TITLE=#{memo_title}, MEMO_CONTENTS=#{memo_contents}, MEMO_OPEN=#{memo_open}
 		where MEMO_NO = #{memo_no}
 	</update>
 	
@@ -91,7 +94,52 @@
 		]]>
 	</select>
 	
-
+	<insert id="bookmarkAdd">
+		insert into bookmark(BOOK_NO, MEMO_NO, MEM_NO, BOOK_LIKECHECK)
+		values(bookmark_seq.nextval, #{memo_no}, #{mem_no}, 1)
+	</insert>
+	
+	<delete id="bookmarkDelete">
+		delete from bookmark
+		where memo_no=#{memo_no} and MEM_NO=#{mem_no}
+	</delete>
+	
+	<!-- <update id="bookmarkDelete">
+		update bookmark
+		set BOOK_LIKECHECK = 0
+		where BOOK_NO=#{memo_no} and MEM_NO=#{mem_no}
+	</update> -->
+	
+	<select id="listBookCriteria" resultType="BookmarkVO">
+		<![CDATA[
+		SELECT a.MEMO_NO, a.mem_no, a.MEMO_NAME, a.MEMO_TITLE,
+       		   a.MEMO_CONTENTS, a.MEMO_WRITEDATE, a.MEMO_HITS, a.MEMO_OPEN 
+  		FROM(SELECT ROWNUM AS rn,
+            		b.MEMO_NO, b.MEM_NO, b.MEMO_NAME, b.MEMO_TITLE,
+       				b.MEMO_CONTENTS, b.MEMO_WRITEDATE, b.MEMO_HITS, b.MEMO_OPEN 
+             FROM (SELECT m.MEMO_NO, m.MEM_NO, m.MEMO_NAME, m.MEMO_TITLE, m.MEMO_CONTENTS,
+                          m.MEMO_WRITEDATE, m.MEMO_HITS, m.MEMO_OPEN, k.book_no, k.BOOK_LIKECHECK
+                   from memojang m join bookmark k
+                   on (m.MEMO_NO = k.MEMO_NO)
+                   where MEM_NO=#{mem_no} and MEMO_NO > 0 and book_no > 0 and BOOK_LIKECHECK > 0
+                   order by MEMO_NO desc, MEMO_WRITEDATE desc
+		) b) a where rn between #{startIndex} and #{endIndex}
+		]]>
+	</select>
+	
+	<select id="countBookPaging" resultType="int">
+		<![CDATA[
+		select count(book_no)
+		from bookmark
+		where book_no > 0
+		]]>
+	</select>
+	
+	<select id="getMemoLike" resultType="int">
+		SELECT COUNT(book_no) 
+		FROM bookmark 
+		WHERE MEMO_NO = #{memo_no} and MEM_NO = #{mem_no}
+    </select>
 
 
 </mapper>

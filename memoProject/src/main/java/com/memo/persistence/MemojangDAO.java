@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.memo.domain.BookmarkVO;
 import com.memo.domain.Criteria;
 import com.memo.domain.MemojangVO;
 import com.memo.dto.MemberDTO;
@@ -24,8 +25,14 @@ public interface MemojangDAO {
 	public void deleteAttach(Integer memoNo) throws Exception;
 	public void replaceAttach(String fullName, Integer memoNo) throws Exception;
 	
-	//public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception;
 	public int countPaging() throws Exception;
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam);
+	
+	public void bookmarkAdd(BookmarkVO vo) throws Exception;
+	public void bookmarkDelete(BookmarkVO vo) throws Exception;
+	public int countBookPaging() throws Exception;
+	public List<MemojangVO> listBookCriteria(Map<String, String> searchParam);
+	public int getMemoLike(BookmarkVO vo) throws Exception;
+	
 
 }

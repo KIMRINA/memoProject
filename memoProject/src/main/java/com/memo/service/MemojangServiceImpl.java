@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.memo.domain.BookmarkVO;
 import com.memo.domain.Criteria;
 import com.memo.domain.MemojangVO;
 import com.memo.dto.MemberDTO;
@@ -63,6 +64,19 @@ public class MemojangServiceImpl implements MemojangService {
 	@Transactional
 	@Override
 	public void memoUpdate(MemojangVO vo) throws Exception {
+		
+		String contents = vo.getMemo_contents();
+		System.out.println("vo: "+vo);
+		
+		int idxLast = contents.indexOf("</p>"); 	// 내용에서 제목추출하기위해 </p>까지 추출할라고 선언
+		int idxLast2 = contents.lastIndexOf("\"");	// " <- 이 특수문자 없앨라고 선언
+		
+		String setTitile = contents.substring(4, idxLast);
+		vo.setMemo_title(setTitile);
+		
+		String setContent = contents.substring(1,idxLast2);
+		vo.setMemo_contents(setContent);
+		
 		dao.memoUpdate(vo);
 		
 		Integer memoNo = vo.getMemo_no();
@@ -96,11 +110,6 @@ public class MemojangServiceImpl implements MemojangService {
 		return dao.getAttach(memoNo);
 	}
 
-//	@Override
-//	public List<MemojangVO> listCriteria(Integer memNo, Integer pageStart, Integer perPageNum) throws Exception {
-//		return dao.listCriteria(memNo, pageStart, perPageNum);
-//	}
-
 	@Override
 	public int listCountCriteria() throws Exception {
 		return dao.countPaging();
@@ -109,6 +118,31 @@ public class MemojangServiceImpl implements MemojangService {
 	@Override
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam) {
 		return dao.listCriteria(searchParam);
+	}
+
+	@Override
+	public void bookmarkAdd(BookmarkVO vo) throws Exception {
+		dao.bookmarkAdd(vo);
+	}
+
+	@Override
+	public void bookmarkDelete(BookmarkVO vo) throws Exception {
+		dao.bookmarkDelete(vo);
+	}
+
+	@Override
+	public int countBookPaging() throws Exception {
+		return dao.countBookPaging();
+	}
+
+	@Override
+	public List<MemojangVO> listBookCriteria(Map<String, String> searchParam) {
+		return dao.listBookCriteria(searchParam);
+	}
+
+	@Override
+	public int getMemoLike(BookmarkVO vo) throws Exception {
+		return dao.getMemoLike(vo);
 	}
 
 }

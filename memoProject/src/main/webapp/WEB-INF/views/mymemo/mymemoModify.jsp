@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
@@ -8,9 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MemozzangMain</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+<title>MEMOZZANG 메모수정</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -18,7 +17,6 @@
 <meta name="author" content="www.twitter.com/cheeriottis">
 
 <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<link href='https://fonts.googleapis.com/css?family=Raleway:300,400' rel='stylesheet' type='text/css'>
 
 <style>
 
@@ -166,13 +164,13 @@
 }
 
 </style>
-</head>
 
+</head>
 <body>
 
 <!-- memo -->
 <!-- Sticly note-->
-<form name="formMod" method="post" action="/main/memoCreate">
+<form name="formMod" method="post" action="/mymemo/mymemoModify">
 <div draggable="true" id='sticky'>
   	<div id="toolbar">
     <span class="ql-formats">
@@ -217,10 +215,12 @@
           <button class="ql-clean"></button>
         </span>
       </div>
-  	<div id="quillEditor"></div>
+  	<div id="quillEditor">
+  		${modify.memo_contents}
+  	</div>
   	<div>
-  		<input type="radio" name="memo_open" id="memo_open" value="0" checked="checked"> 공개
-  		<input type="radio" name="memo_open" id="memo_open" value="1"> 비공개
+  		<input type="radio" name="memo_open" id="memo_open" value="0" <c:if test="${modify.memo_open=='0'}">checked="checked"</c:if>> 공개
+  		<input type="radio" name="memo_open" id="memo_open" value="1"<c:if test="${modify.memo_open=='1'}">checked="checked"</c:if>> 비공개
   	</div>
     <!-- <textarea id="speech" placeholder="여기, 오늘 당신의 메모를 적어보세요." 
 			onfocus="this.placeholder = ''"
@@ -230,59 +230,103 @@
 <!-- 로그인 했을때 -->
 <sec:authorize access="isAuthenticated()">
 <div id="btnDiv1">
-	<a href="#" class="action-button shadow animate blue" onclick="goCreate(mem_no, username, memo_name, memo_open)">메모등록</a>
+	<a href="#" class="action-button shadow animate blue" id="btnGo">메모등록</a>
+	<!-- <button>메모등록</button> -->
 </div>
 </sec:authorize>
 
-<input type="hidden" name="memo_contents" />
+<!-- <input type="hidden" name="memo_contents" /> -->
 <input type="hidden" name="mem_no" id="mem_no" value="${login.mem_no}">
 <input type="hidden" name="username" value="${username}">
 <input type="hidden" name="memo_name" id="memo_name" value="${login.mem_name}">
+<input type="hidden" name="memo_no" id="memo_no" value="${modify.memo_no}">
+<input type="hidden" id="memo_contents" name="memo_contents">
 
 
   </form>
 <!-- end of memo -->
-  
 
 
-
-<script>
-	
-	$(function() {
-		// 메모 이동
-		//$("#sticky").draggable();
-	})
-	
-</script>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
 	
 	// memo_contents를 담으려고 선언한 변수
 	var memo_con = "";
+	//var memo_con = document.getElementById('memo_contents');
+	
+	
+		// memo 하나 읽기 ajax
+	var memo_no = $('#memo_no').val();
+	var dataCon = "";
+	console.log("memo_no: "+memo_no);
+	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/mymemo/readOneMemo?memo_no='+ memo_no,
+		type : 'get',
+		async: "true",
+		dataType: "json",
+		data: {
+			memo_no: memo_no,
+		},
+		success : function(data, textStatus) {
+			console.log("readMemo : "+ JSON.stringify(data));
+			
+			// quill api 사용
+			   var quill = new Quill('#quillEditor', {
+			    theme: 'snow',
+			    placeholder: '여기, 오늘 당신의 메모를 적어보세요.',
+			    formats : 'Block',
+			    modules: {
+			      toolbar: '#toolbar'
+			    }
+			  });
+			   quill.on('text-change', function() {
+				    var delta = quill.getContents();
+				    var text = quill.getText();
+				    var justHtml = quill.root.innerHTML;
+				    
+				    //memo_con.innerHTML = JSON.stringify(text);
 
-	// quill api 사용
-   var quill = new Quill('#quillEditor', {
-    theme: 'snow',
-    placeholder: '여기, 오늘 당신의 메모를 적어보세요.',
-    formats : 'Block',
-    modules: {
-      toolbar: '#toolbar'
-    }
-  });
-  
-   quill.on('text-change', function() {
-	    var delta = quill.getContents();
-	    var text = quill.getText();
-	    var justHtml = quill.root.innerHTML;
+				    memo_con = $('input[name="memo_contents"]').val(JSON.stringify(justHtml));
+				    dataCon = data.memo_contents
+				    console.log("data.memo_contents: "+data.memo_contents);
+				    
 
-	    memo_con = $('input[name="memo_contents"]').val(JSON.stringify(justHtml));
-	    console.log("memocon: "+memo_con);
+				    console.log(JSON.stringify(delta['ops']));
 
-	    console.log(JSON.stringify(delta['ops']));
+				  });
+			   
+			// a태그 사용해서 post 방식으로 넘기기
+			   $("#btnGo").click(function() {
+				  console.log("memo_no: "+memo_no);
+				  console.log("memo_con: "+memo_con);
+				  console.log("memo_open: "+memo_open);
+				  
+				  var f=document.formMod; //폼 name
+				  f.memo_contents = memo_con;//POST방식으로 넘기고 싶은 값
+				  f.memo_open = memo_open;//POST방식으로 넘기고 싶은 값
+				  
+				  f.action="/mymemo/mymemoModify";//이동할 페이지
+				  f.method="post";//POST방식
+				  f.submit();
+			    });
+			
+				
+			
+		},error:function(request,status,error){
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+	});
 
-	  });
+	
    
+   
+
+
+
+
+
 /*    quill.getModule('toolbar').addHandler('image', function() {
        selectLocalImage();
    });
@@ -333,19 +377,7 @@
     }
   }
   
-  // a태그 사용해서 post 방식으로 넘기기
-    function goCreate(mem_no, username, memo_name, memo_open){
-	  var f=document.formMod; //폼 name
-	  f.mem_no = mem_no; //POST방식으로 넘기고 싶은 값
-	  f.username = username; //POST방식으로 넘기고 싶은 값
-	  f.memo_name = memo_name;//POST방식으로 넘기고 싶은 값
-	  f.memo_contents = memo_con;//POST방식으로 넘기고 싶은 값
-	  f.memo_open = memo_open;//POST방식으로 넘기고 싶은 값
-	  
-	  f.action="/main/memoCreate";//이동할 페이지
-	  f.method="post";//POST방식
-	  f.submit();
-}
+  
 
 </script>
 </body>
