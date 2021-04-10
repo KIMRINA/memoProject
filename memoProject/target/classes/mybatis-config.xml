@@ -5,5 +5,9 @@
 		<typeAlias alias="MemberDTO" type="com.memo.dto.MemberDTO" />
 		<typeAlias alias="MemojangVO" type="com.memo.domain.MemojangVO" />
 		<typeAlias alias="BookmarkVO" type="com.memo.domain.BookmarkVO" />
+		<typeAlias alias="CalendarVO" type="com.memo.domain.CalendarVO" />
+		<typeAlias alias="DayChartDTO" type="com.memo.dto.DayChartDTO" />
+		<typeAlias alias="WordcloudDTO" type="com.memo.dto.WordcloudDTO" />
+		<typeAlias alias="ContentChartDTO" type="com.memo.dto.ContentChartDTO" />
 	</typeAliases>
 </configuration>

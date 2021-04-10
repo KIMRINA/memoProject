@@ -131,6 +131,7 @@ public class MemojangCtrl {
         System.out.println("memolike: "+memolike);
 
         model.addAttribute("heart",memolike);
+        model.addAttribute("userid", userid);
         //
 
 		MemojangVO addList = service.memoOneRead(memoNo);
@@ -171,54 +172,6 @@ public class MemojangCtrl {
 		return "redirect:/mymemo/mymemoDefaultAll";
 	}
 
-	// 북마크로 모아보기
-	@GetMapping("/mymemo/mymemoBookmark")
-	public void mymemoBookmarkGET(@ModelAttribute MemberDTO dto, HttpSession session, Model model) throws Exception {
-		log.info("** mymemoBookmarkGET **");
-		
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = (UserDetails) principal;
-
-		String username = userDetails.getUsername();
-
-		MemberDTO login = (MemberDTO) session.getAttribute("login");
-		MemberDTO after = memService.readUser(username);
-
-		model.addAttribute("listAll", service.memoListAll(dto.getMem_no()));
-		model.addAttribute("listCount", service.listCountCriteria());
-	}
-	
-	//  ajax
-	@RequestMapping(value = "/mymemo/heartAdd", method = RequestMethod.POST, produces = "application/json")
-	@ResponseBody
-	public int heartAdd(HttpServletRequest httpRequest) throws Exception {
-		log.info("** heartAdd **");
-		
-		int heart = Integer.parseInt(httpRequest.getParameter("heart"));
-        int memoNo = Integer.parseInt(httpRequest.getParameter("memo_no"));
-        int userid = ((MemberDTO) httpRequest.getSession().getAttribute("login")).getMem_no();
-
-        BookmarkVO vo = new BookmarkVO();
-
-        vo.setMemo_no(memoNo);
-        vo.setMem_no(userid);
-
-        System.out.println("memoNo"+memoNo);
-        System.out.println("userid"+userid);
-        System.out.println("heart"+heart);
-
-        if(heart >= 1) {
-        	System.out.println("지워지고있나");
-            service.bookmarkDelete(vo);
-            heart=0;
-        } else {
-            service.bookmarkAdd(vo);
-            heart=1;
-        }
-
-        return heart;
-		
-	}
 	
 
 }

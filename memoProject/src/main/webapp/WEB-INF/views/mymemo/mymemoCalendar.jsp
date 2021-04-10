@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MEMOZZANG 나의메모모아보기 - 한눈에 모아보기</title>
+<title>MEMOZZANG 나의메모모아보기 - 달력으로 모아보기</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -21,6 +21,20 @@
 
 <link rel="stylesheet" href="../resources/css/mymemoDefaultAll.css" type="text/css">
 
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" rel='stylesheet' type='text/css'>
+
+<style>
+#div4 {
+	position: absolute;
+    top: 330px;
+    left: 170px;
+    width: 1200px;
+    height: 700px;
+    background-color: rgba( 255, 255, 255, 0.7 );
+}
+</style>
 </head>
 
 <body>
@@ -28,7 +42,7 @@
 <div id="div1">
 	<div id="div2">
 		<div class='dropdown'>
-  			<label>한눈에 모아보기</label>
+  			<label>달력으로 모아보기</label>
   			<ul>
 			    <li onClick='close_pop("/mymemo/mymemoDefaultAll");'>한눈에 모아보기</li>
 			    <li onClick='close_pop("/mymemo/mymemoCalendar");'>달력으로 모아보기</li> 
@@ -43,20 +57,17 @@
 	</div>
 </div><!-- div1 of end -->
 
-<!-- 작은 메모들 -->
-<div id="div3">
-	<ul id='Grid'>
-	</ul>
+
+<div id="external-events">
+    <div class="fc-event"></div>
+      <input type="checkbox" id="drop-remove" style="position: absolute;top: 400px;">
+      <label for="drop-remove"></label>
+</div>
+<div id="div4">
+	<div id='calendar'></div>
 </div>
 
-<%-- <c:forEach items="${list}" var="memo"> --%>
-<!-- 	<div id='sticky'> -->
-<%-- 		<p>${list.memo_no}</p>
-		<p>${list.memo_name}</p>
-		<p>${list.memo_title}</p>
-		<p><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${list.memo_writedate}" /></p> --%>
-<!-- 	</div> -->
-<%-- </c:forEach> --%>
+
 <!-- memo -->
 <!-- Sticly note-->
 <form name="formMod" method="post" action="">
@@ -67,7 +78,6 @@
 <input type="hidden" name="memo_no" id="memo_no" value="${list.memo_no}">
 </form>
 
-<input type="hidden" id="memoBtn"onclick="goModal()" />
 <div id="myModal" class="modal">
 	<div draggable="true" id='stickyModal'>
 		<a class="btn btn-outline-dark heart">
@@ -76,7 +86,7 @@
 		<!-- <span class="material-icons-outlined" id="modalNoheartBtn">
 			favorite_border
 		</span> -->
-		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/mymemo/mymemoDefaultAll");'>
+		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/mymemo/mymemoCalendar");'>
 			close
 		</span>
   		<div id="quillEditor">
@@ -95,29 +105,99 @@
 <!-- <button id="searchMoreNotify">더 보기</button> -->
 <!-- end of memo -->
 
-
 <script>
+var mem_no = $('#mem_no').val();
+console.log("mem_no?: "+mem_no);
+var memo_n = "";
+document.addEventListener('DOMContentLoaded', function() {
+	var initialLocaleCode = 'ko';
+	var localeSelectorEl = document.getElementById('locale-selector');
+	var Calendar = FullCalendar.Calendar;
+	var Draggable = FullCalendar.Draggable;
 
+	var containerEl = document.getElementById('external-events');
+	var calendarEl = document.getElementById('calendar');
+	var checkbox = document.getElementById('drop-remove');
+	  
+	  // initialize the external events
+	  // -----------------------------------------------------------------
+
+	  new Draggable(containerEl, {
+	    itemSelector: '.fc-event',
+	    eventData: function(eventEl) {
+	      return {
+	        title: eventEl.innerText
+	      };
+	    }
+	  });
+
+	  // initialize the calendar
+	  // -----------------------------------------------------------------
+	  
+	  var calendar = new FullCalendar.Calendar(calendarEl, {
+		  eventClick: function(info) {
+		      var eventObj = info.event;
+		      info.jsEvent.preventDefault();
+
+		        alert('Clicked ' + eventObj.title);
+		        memo_n = info.event.url;
+		        console.log("memo_n: "+memo_n);
+		        goModal(memo_n);
+		    },
+	    initialView: 'dayGridMonth',
+	    initialDate: '2021-04-07',
+	    height: '100%',
+	    locale: initialLocaleCode,
+	    buttonIcons: false, // show the prev/next text
+	    weekNumbers: true,
+	    navLinks: true, // can click day/week names to navigate views
+	    editable: true,
+	    dayMaxEvents: true, // allow "more" link when too many events
+	    events: 'https://fullcalendar.io/demo-events.json?overload-day',
+	    headerToolbar: {
+	      left: 'prev,next today',
+	      center: 'title',
+	      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+	    },
+	    editable: true,
+	    droppable: true, // this allows things to be dropped onto the calendar
+	    drop: function(info) {
+	        // is the "remove after drop" checkbox checked?
+	        if (checkbox.checked) {
+	          // if so, remove the element from the "Draggable Events" list
+	          info.draggedEl.parentNode.removeChild(info.draggedEl);
+	        }
+	    },
+	    eventSources: [{
+	    	events: function(info, successCallback, failureCallback) {
+				$.ajax({
+					url: "/mymemo/calendarList",
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						mem_no : mem_no
+					},
+					success: function(data) {
+						console.log("Data:"+JSON.stringify(data))
+						successCallback(data);
+					}
+				});
+			}
+		}]
+	    
+	  });
+
+	  calendar.render();
+	  
+	  
+	});
+
+</script>
+<script>
 //팝업 Close 기능
 function close_pop(url) {
 	window.location.href = url;
-	
- 	/* $.ajax({
-		url : '${pageContext.request.contextPath}/mymemo/mymemoDefaultAll',
-		type : 'get',
-		success : function(data) {
-			window.location.href = "/mymemo/mymemoDefaultAll";
-		},error:function(request,status,error){
-            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-	}); */
-	
 };
-
-
-$(document).ready(function(){
-});		// end of $(document).ready
-
 </script>
 <script>
 	// 드롭다운
@@ -158,8 +238,6 @@ const expand = () => {
 searchBtn.addEventListener("click", expand);
 
 </script>
-
-
 <script>
 
 var book_check = 0;
@@ -231,67 +309,7 @@ function goModal(memo_no) {
 }	
 
 
-// 페이징 ajax
  $(document).ready(function(){
-	// 읽은 알림 총 갯수
-	var oldListCnt = '${listCount}';
-	console.log("oldListCnt: " + oldListCnt);
-	// 조회 인덱스
-	var startIndex = 1;	// 인덱스 초기값
-	var searchStep = 5;	// 5개씩 로딩
-	
-	// 페이지 로딩 시 첫 실행
-	readOldNotify(startIndex);
-	
-	// 더보기 실행함수 **
-	function readOldNotify(index){
-		var mem_no = $('#mem_no').val();
-		console.log("???: "+mem_no);
-		var _endIndex = index+searchStep-1;	// endIndex설정
-		$.ajax({
-			type: "get",
-			async: "true",
-			dataType: "json",
-			data: {
-				mem_no: mem_no,
-				startIndex: index,
-				endIndex: _endIndex
-			},
-			url: "${contextPath}/mymemo/searchMoreNotify",
-			success: function (data, textStatus) {
-				console.log("data: " + JSON.stringify(data));
-				var NodeList = "";
-				for(i = 0; i < data.length; i++){
-					var newNode = "<li id='oneMemo' onclick='goModal("+data[i].memo_no+")'>";
-					newNode += "<p id='p1'>"+data[i].memo_no+"</p>"
-					newNode += "<p id='p2'>"+data[i].memo_name+"</p>"
-					newNode += "<p id='p3'>"+data[i].memo_title+"</p>"
-					newNode += "<p>"+data[i].memo_writedate+"</p></li>"
-					NodeList += newNode;
-				}
-				NodeList += "<button id='searchMoreNotify'><span class='material-icons-outlined'>expand_more</span></button>"
-				$(NodeList).appendTo($("#Grid")).slideDown();
-				console.log("NodeList: "+newNode);
-				
-				// 더보기 클릭시
-				$('#searchMoreNotify').click(function(){
-					startIndex += searchStep;
-					readOldNotify(startIndex);
-					$('#searchMoreNotify').remove();
-				})
-
-				// 더보기 버튼 삭제
-				if(startIndex + searchStep > oldListCnt){
-					$('#searchMoreNotify').remove();
-				}	 		
-			},error:function(request,status,error){
-	            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	           }
-
-		});
-	}
-	
-	
 	
 	// 북마크
     var heartval = book_check;

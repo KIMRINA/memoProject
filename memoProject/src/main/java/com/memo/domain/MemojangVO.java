@@ -23,4 +23,6 @@ public class MemojangVO {
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date memo_writedate;
+	
+	private BookmarkVO bookmarkVO;
 }

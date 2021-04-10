@@ -142,7 +142,7 @@
 				<p id="p2"><strong><c:out value = "${error}"/></strong><strong><c:out value = "${logout}"/></strong></p>
 				<div id="div3_login">
 					<input type = 'text' name = 'username' class="login-input" placeholder="EMAIL ID" value = 'member2@1'>
-					<input type = 'password' name = 'password' class="login-input" placeholder="PASSWORD" value = '1'>
+					<input type = 'password' name = 'password' class="login-input" placeholder="PASSWORD" value = '1111'>
 				</div>
 				<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
 				    <font color="red">

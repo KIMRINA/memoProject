@@ -268,14 +268,15 @@ body
 			    <span></span>
 			    
 			    <ul id="menu">
-			      <a href="#"><li>타인메모<br>모아보기</li></a>
-			      <a href="/mymemo/mymemoDefaultAll"><li>나의메모<br>모아보기</li></a>
+			      <a href="/others/othersMemo"><li>타인메모<br>모아보기</li></a>
 			      
 			      <sec:authorize access="isAnonymous()">
+			      	<a href="/member/customLogin" onclick="altert()"><li>나의메모<br>모아보기</li></a>
 			      	<a href="/member/customLogin"><li>로그인</li></a>
-			      	<a href="/member/memberJoin2"><li>회원가입</li></a>
+			      	<a href="/member/memberJoin1"><li>회원가입</li></a>
 			      </sec:authorize>
 			      <sec:authorize access="isAuthenticated()">
+			      <a href="/mymemo/mymemoDefaultAll"><li>나의메모<br>모아보기</li></a>
 			      	<a href="/member/memberModify1"><li>회원정보수정</li></a>
 			      	<a href="#" onclick="document.getElementById('logout-form').submit();"><li>로그아웃</li></a>
 			      </sec:authorize>
@@ -332,6 +333,10 @@ function goMain() {
 
 function goLoginMain() {
 	window.location.href = "/main/loginMain";
+}
+
+function altert() {
+	alert('로그인이 필요합니다.');
 }
 
 </script>

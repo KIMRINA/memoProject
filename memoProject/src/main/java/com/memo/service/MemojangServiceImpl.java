@@ -3,7 +3,6 @@ package com.memo.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Repository;
@@ -12,9 +11,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.memo.domain.BookmarkVO;
-import com.memo.domain.Criteria;
+import com.memo.domain.CalendarVO;
 import com.memo.domain.MemojangVO;
-import com.memo.dto.MemberDTO;
+import com.memo.dto.ContentChartDTO;
+import com.memo.dto.DayChartDTO;
+import com.memo.dto.WordcloudDTO;
 import com.memo.persistence.MemojangDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -143,6 +144,31 @@ public class MemojangServiceImpl implements MemojangService {
 	@Override
 	public int getMemoLike(BookmarkVO vo) throws Exception {
 		return dao.getMemoLike(vo);
+	}
+
+	@Override
+	public List<MemojangVO> othersMemoList(Map<String, String> searchParam) {
+		return dao.othersMemoList(searchParam);
+	}
+
+	@Override
+	public List<CalendarVO> calendarList(Map<String, String> searchParam) {
+		return dao.calendarList(searchParam);
+	}
+
+	@Override
+	public List<DayChartDTO> dayChart(Integer memNo) {
+		return dao.dayChart(memNo);
+	}
+
+	@Override
+	public List<WordcloudDTO> wordCloud(Map<String, String> searchParam) {
+		return dao.wordCloud(searchParam);
+	}
+
+	@Override
+	public List<ContentChartDTO> contentChart(Integer memNo) {
+		return dao.contentChart(memNo);
 	}
 
 }

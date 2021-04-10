@@ -29,8 +29,8 @@
   			<label>북마크로 모아보기</label>
   			<ul>
 			    <li onClick='close_pop("/mymemo/mymemoDefaultAll");'>한눈에 모아보기</li>
-			    <li>달력으로 모아보기</li> 
-			    <li>그래프로 모아보기</li>
+			    <li onClick='close_pop("/mymemo/mymemoCalendar");'>달력으로 모아보기</li> 
+			    <li onClick='close_pop("/mymemo/mymemoChart");'>그래프로 모아보기</li>
 			    <li onClick='close_pop("/mymemo/mymemoBookmark");'>북마크로 모아보기</li>
 			</ul>
 		</div>
@@ -58,7 +58,10 @@
 <input type="hidden" id="memoBtn"onclick="goModal()" />
 <div id="myModal" class="modal">
 	<div draggable="true" id='stickyModal'>
-		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/mymemo/mymemoDefaultAll");'>
+		<a class="btn btn-outline-dark heart">
+           <img id="heart" src="">
+       	</a>
+		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/mymemo/mymemoBookmark");'>
 			close
 		</span>
   		<div id="quillEditor">
@@ -118,6 +121,8 @@ searchBtn.addEventListener("click", expand);
 </script>
 <script>
 
+var book_check = 0;
+var memo_nono = "";
 // memo 하나 읽기 ajax
 function goModal(memo_no) {
 		$('#myModal').show();
@@ -163,7 +168,20 @@ function goModal(memo_no) {
 					NodeList += newNode;
 					console.log("NodeList: "+NodeList);
 					
+					
+					if(data.book_likecheck>0) {
+				        console.log("heartval: "+data.book_likecheck);
+				        $("#heart").prop("src", "/resources/images/like2.png");
+				    }
+				    else {
+				    	console.log("heartval: "+data.book_likecheck);
+				    	$("#heart").prop("src", "/resources/images/like1.png");
+				    }
+					
 				$(NodeList).appendTo($("#quillEditor"));
+				
+				book_check = data.book_likecheck;
+				memo_nono = data.memo_no;
 				
 			},error:function(request,status,error){
 	            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -198,7 +216,7 @@ function goModal(memo_no) {
 				startIndex: index,
 				endIndex: _endIndex
 			},
-			url: "${contextPath}/mymemo/searchMoreNotify",
+			url: "${contextPath}/mymemo/mymemoBookSort",
 			success: function (data, textStatus) {
 				console.log("data: " + JSON.stringify(data));
 				var NodeList = "";
@@ -231,6 +249,47 @@ function goModal(memo_no) {
 
 		});
 	}
+	
+	
+	// 북마크
+    var heartval = book_check;
+    console.log("트발이: " + heartval);
+
+    if(heartval>0) {
+        console.log("heartval: "+heartval);
+        $("#heart").prop("src", "/resources/images/like2.png");
+        $(".heart").prop('name',heartval)
+    }
+    else {
+    	console.log("heartval: "+heartval);
+    	$("#heart").prop("src", "/resources/images/like1.png");
+        $(".heart").prop('name',heartval)
+    }
+
+    $(".heart").on("click", function () {
+
+        var that = $(".heart");
+
+        var sendData = {'memo_no' : memo_nono,'heart' : that.prop('name')};
+        $.ajax({
+            url :'/mymemo/heartAdd',
+            type :'POST',
+            data : sendData,
+            success : function(data){
+            	console.log("트발이: "+data)
+                that.prop('name',data);
+                if(data==1) {
+                	$('#heart').prop("src","/resources/images/like2.png");
+                }
+                else{
+                	$('#heart').prop("src","/resources/images/like1.png");
+                }
+
+
+            }
+        });
+    });	
+	
 	
 	
 }); /* end of script */

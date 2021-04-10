@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MEMOZZANG 나의메모모아보기 - 한눈에 모아보기</title>
+<title>MEMOZZANG 타인메모모아보기</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -20,22 +20,11 @@
 <link href='https://fonts.googleapis.com/css?family=Raleway:300,400' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" href="../resources/css/mymemoDefaultAll.css" type="text/css">
-
 </head>
-
 <body>
 
 <div id="div1">
 	<div id="div2">
-		<div class='dropdown'>
-  			<label>한눈에 모아보기</label>
-  			<ul>
-			    <li onClick='close_pop("/mymemo/mymemoDefaultAll");'>한눈에 모아보기</li>
-			    <li onClick='close_pop("/mymemo/mymemoCalendar");'>달력으로 모아보기</li> 
-			    <li onClick='close_pop("/mymemo/mymemoChart");'>그래프로 모아보기</li>
-			    <li onClick='close_pop("/mymemo/mymemoBookmark");'>북마크로 모아보기</li>
-			</ul>
-		</div>
 	</div>
 	<div id="content">
 		<input type="text" name="input" class="input" id="search-input">
@@ -49,22 +38,8 @@
 	</ul>
 </div>
 
-<%-- <c:forEach items="${list}" var="memo"> --%>
-<!-- 	<div id='sticky'> -->
-<%-- 		<p>${list.memo_no}</p>
-		<p>${list.memo_name}</p>
-		<p>${list.memo_title}</p>
-		<p><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${list.memo_writedate}" /></p> --%>
-<!-- 	</div> -->
-<%-- </c:forEach> --%>
-<!-- memo -->
-<!-- Sticly note-->
 <form name="formMod" method="post" action="">
 <input type="hidden" name="memo_contents" />
-<input type="hidden" name="mem_no" id="mem_no" value="${login.mem_no}">
-<input type="hidden" name="username" value="${username}">
-<input type="hidden" name="memo_name" id="memo_name" value="${login.mem_name}">
-<input type="hidden" name="memo_no" id="memo_no" value="${list.memo_no}">
 </form>
 
 <input type="hidden" id="memoBtn"onclick="goModal()" />
@@ -73,76 +48,22 @@
 		<a class="btn btn-outline-dark heart">
            <img id="heart" src="">
        	</a>
-		<!-- <span class="material-icons-outlined" id="modalNoheartBtn">
-			favorite_border
-		</span> -->
-		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/mymemo/mymemoDefaultAll");'>
+		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/others/othersMemo");'>
 			close
 		</span>
   		<div id="quillEditor">
   		</div>
 	</div>
-	<div id="modalBtnDiv">
-		<button id="modifyBtn" class="btn btn-default">MODIFY</button>
-		<button id="removeBtn" class="btn btn-danger">DELETE</button>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
-	</div>
+	
 </div>	<!-- Modal of end -->
 
 
 
-
-<!-- <button id="searchMoreNotify">더 보기</button> -->
-<!-- end of memo -->
-
-
 <script>
-
 //팝업 Close 기능
 function close_pop(url) {
 	window.location.href = url;
-	
- 	/* $.ajax({
-		url : '${pageContext.request.contextPath}/mymemo/mymemoDefaultAll',
-		type : 'get',
-		success : function(data) {
-			window.location.href = "/mymemo/mymemoDefaultAll";
-		},error:function(request,status,error){
-            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-	}); */
-	
 };
-
-
-$(document).ready(function(){
-});		// end of $(document).ready
-
-</script>
-<script>
-	// 드롭다운
-	var dropdown = document.querySelector('.dropdown'),
-    dropdown_ul = dropdown.querySelector('ul');
-
-	dropdown.addEventListener('click', function() {
-	  if(dropdown_ul.offsetLeft < 0) {
-	    dropdown_ul.style.left = '0';
-	    dropdown_ul.style.right = '0';
-	    dropdown_ul.stle.display = 'static';
-	  } else {
-	    dropdown_ul.style.left = '-9999px';
-	    dropdown_ul.style.right = '';
-	    dropdown_ul.stle.display = 'absolute';
-	  }
-	});
-	
-	
-	$('.dropdown li').each(function() {
-	  $(this).click(function() {
-	    $('.dropdown label').text($(this).text());
-	  });
-	});
-	 
 </script>
 <script>
 
@@ -158,8 +79,6 @@ const expand = () => {
 searchBtn.addEventListener("click", expand);
 
 </script>
-
-
 <script>
 
 var book_check = 0;
@@ -170,17 +89,6 @@ function goModal(memo_no) {
 	  	console.log("oneMemo");
 		console.log("memo_no: "+memo_no);
 		
-		// 메모 삭제
-		$("#removeBtn").on("click", function(){
-			alert("메모를 삭제합니다");
-			console.log("memo_no: " + memo_no)
-			window.location.href = "/mymemo/memoDelete?memo_no="+memo_no;
-		});
-		
-		// 메모 수정
-		$("#modifyBtn").on("click", function(){
-			window.location.href = "/mymemo/mymemoModify?memo_no="+memo_no;
-		});
 		
 		// memo 하나 읽기 ajax
 		$.ajax({
@@ -199,7 +107,6 @@ function goModal(memo_no) {
 					newNode += "<p id='memoP3'>글쓴이: "+data.memo_name+"</p>";
 					newNode += "<p id='memoP4'>"+data.memo_title+"</p>";
 					newNode += "<p id='memoP5'>"+data.memo_contents+"</p>";
-					newNode += "<p>"+data.book_likecheck+"</p>"
 					if(data.memo_open == 0) {
 						newNode += "<input type='radio' name='memo_open' id='memo_open' value='0' checked='checked'><span>공개</span>";
 						newNode += "<input type='radio' name='memo_open' id='memo_open' value='1'><span>비공개</span> ";
@@ -209,6 +116,7 @@ function goModal(memo_no) {
 					}
 					NodeList += newNode;
 					console.log("NodeList: "+NodeList);
+					
 					
 					if(data.book_likecheck>0) {
 				        console.log("heartval: "+data.book_likecheck);
@@ -245,19 +153,16 @@ function goModal(memo_no) {
 	
 	// 더보기 실행함수 **
 	function readOldNotify(index){
-		var mem_no = $('#mem_no').val();
-		console.log("???: "+mem_no);
 		var _endIndex = index+searchStep-1;	// endIndex설정
 		$.ajax({
 			type: "get",
 			async: "true",
 			dataType: "json",
 			data: {
-				mem_no: mem_no,
 				startIndex: index,
 				endIndex: _endIndex
 			},
-			url: "${contextPath}/mymemo/searchMoreNotify",
+			url: "${contextPath}/others/othersMemoList",
 			success: function (data, textStatus) {
 				console.log("data: " + JSON.stringify(data));
 				var NodeList = "";
@@ -290,7 +195,6 @@ function goModal(memo_no) {
 
 		});
 	}
-	
 	
 	
 	// 북마크
@@ -334,11 +238,8 @@ function goModal(memo_no) {
 	
 	
 	
-	
 }); /* end of script */
 
-
-	
 </script>
 
 </body>

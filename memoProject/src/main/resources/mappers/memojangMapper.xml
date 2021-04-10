@@ -4,6 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.memo.mappers.MemojangMapper">
+
+<resultMap type="BookmarkVO" id="BookmarkVO">
+	<result column="book_no" property="book_no"/>
+	<result column="book_likecheck" property="book_likecheck"/>
+</resultMap>
+
+<resultMap type="MemojangVO" id="MemojangVO">
+	<result column="memo_no" property="memo_no"/>
+	<result column="mem_no" property="mem_no"/>
+	<result column="memo_name" property="memo_name"/>
+	<result column="memo_title" property="memo_title"/>
+	<result column="memo_contents" property="memo_contents"/>
+	<result column="memo_writedate" property="memo_writedate"/>
+	<result column="memo_hits" property="memo_hits"/>
+	<result column="memo_open" property="memo_open"/>
+	<collection property="bookmarkVO" resultMap="BookmarkVO"/>
+</resultMap>
+
+
 	
 	<insert id="memoCreate">
 		insert into memojang(MEMO_NO, MEM_NO, MEM_EMAIL, MEMO_NAME, MEMO_TITLE, 
@@ -110,19 +129,19 @@
 		where BOOK_NO=#{memo_no} and MEM_NO=#{mem_no}
 	</update> -->
 	
-	<select id="listBookCriteria" resultType="BookmarkVO">
+	<select id="listBookCriteria" resultType="MemojangVO" resultMap="MemojangVO">
 		<![CDATA[
 		SELECT a.MEMO_NO, a.mem_no, a.MEMO_NAME, a.MEMO_TITLE,
        		   a.MEMO_CONTENTS, a.MEMO_WRITEDATE, a.MEMO_HITS, a.MEMO_OPEN 
-  		FROM(SELECT ROWNUM AS rn,
-            		b.MEMO_NO, b.MEM_NO, b.MEMO_NAME, b.MEMO_TITLE,
-       				b.MEMO_CONTENTS, b.MEMO_WRITEDATE, b.MEMO_HITS, b.MEMO_OPEN 
-             FROM (SELECT m.MEMO_NO, m.MEM_NO, m.MEMO_NAME, m.MEMO_TITLE, m.MEMO_CONTENTS,
-                          m.MEMO_WRITEDATE, m.MEMO_HITS, m.MEMO_OPEN, k.book_no, k.BOOK_LIKECHECK
-                   from memojang m join bookmark k
-                   on (m.MEMO_NO = k.MEMO_NO)
-                   where MEM_NO=#{mem_no} and MEMO_NO > 0 and book_no > 0 and BOOK_LIKECHECK > 0
-                   order by MEMO_NO desc, MEMO_WRITEDATE desc
+		FROM(SELECT ROWNUM AS rn,
+    				b.MEMO_NO, b.MEM_NO, b.MEMO_NAME, b.MEMO_TITLE,
+     				b.MEMO_CONTENTS, b.MEMO_WRITEDATE, b.MEMO_HITS, b.MEMO_OPEN 
+     		 FROM (SELECT m.MEMO_NO, m.MEM_NO, m.MEMO_NAME, m.MEMO_TITLE, m.MEMO_CONTENTS,
+                  		  m.MEMO_WRITEDATE, m.MEMO_HITS, m.MEMO_OPEN, k.book_no, k.BOOK_LIKECHECK
+           			 from memojang m join bookmark k
+           			 on (m.MEMO_NO = k.MEMO_NO)
+           			 where m.MEM_NO=#{mem_no} and m.MEMO_NO > 0 and k.book_no > 0 and k.BOOK_LIKECHECK > 0
+           			 order by m.MEMO_NO desc, m.MEMO_WRITEDATE desc
 		) b) a where rn between #{startIndex} and #{endIndex}
 		]]>
 	</select>
@@ -140,6 +159,58 @@
 		FROM bookmark 
 		WHERE MEMO_NO = #{memo_no} and MEM_NO = #{mem_no}
     </select>
+    
+    
+    <!-- others memo -->
+    <select id="othersMemoList" resultType="MemojangVO" resultMap="MemojangVO">
+		<![CDATA[
+		SELECT a.MEMO_NO, a.mem_no, a.MEMO_NAME, a.MEMO_TITLE,
+       		   a.MEMO_CONTENTS, a.MEMO_WRITEDATE, a.MEMO_HITS, a.MEMO_OPEN 
+		FROM(SELECT ROWNUM AS rn,
+     				b.MEMO_NO, b.MEM_NO, b.MEMO_NAME, b.MEMO_TITLE,
+     				b.MEMO_CONTENTS, b.MEMO_WRITEDATE, b.MEMO_HITS, b.MEMO_OPEN 
+    		 FROM (SELECT m.MEMO_NO, m.MEM_NO, m.MEMO_NAME, m.MEMO_TITLE, m.MEMO_CONTENTS,
+                  		  m.MEMO_WRITEDATE, m.MEMO_HITS, m.MEMO_OPEN, k.book_no, k.BOOK_LIKECHECK
+           		   from memojang m join bookmark k
+           		   on (m.MEMO_NO = k.MEMO_NO)
+           		   where m.MEMO_NO > 0 and m.MEMO_OPEN = 0 and 
+           		   		 k.book_no > 0 and k.BOOK_LIKECHECK > 0
+           		   order by m.MEMO_NO desc, m.MEMO_WRITEDATE desc
+		) b) a where rn between #{startIndex} and #{endIndex}
+		]]>
+	</select>
+	
+	<!-- 캘린더 -->
+	<select id="calendarList" resultType="CalendarVO">
+		select memo_writedate as "start", memo_title as "title", memo_no as "url"
+		from memojang
+		where mem_no = #{mem_no}
+	</select>
+	
+	<!-- 차트 -->
+	<select id="dayChart" resultType="DayChartDTO">
+		SELECT COUNT(*) AS "count", TO_CHAR(MEMO_WRITEDATE,'YYYY-MM-DD') AS memo_writedate
+		FROM memojang
+		WHERE mem_no=#{mem_no} and MEMO_WRITEDATE BETWEEN '2021-01-01' AND '2021-12-31'
+		GROUP BY TO_CHAR(MEMO_WRITEDATE,'YYYY-MM-DD')
+		order by MEMO_WRITEDATE
+	</select>
+	
+	<select id="wordCloud" resultType="WordcloudDTO">
+		<![CDATA[
+			SELECT memo_title, count(*) AS "mount"
+			FROM memojang
+			where mem_no=#{mem_no}
+			GROUP BY memo_title 
+			HAVING count(*) > 1
+		]]>
+	</select>
+	
+	<select id="contentChart" resultType="ContentChartDTO">
+		SELECT memo_contents
+		FROM memojang
+		where mem_no=#{mem_no}
+	</select>
 
 
 </mapper>
