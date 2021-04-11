@@ -7,11 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.memo.domain.BookmarkVO;
 import com.memo.domain.CalendarVO;
-import com.memo.domain.Criteria;
 import com.memo.domain.MemojangVO;
 import com.memo.dto.ContentChartDTO;
 import com.memo.dto.DayChartDTO;
-import com.memo.dto.MemberDTO;
 import com.memo.dto.WordcloudDTO;
 
 @Mapper
@@ -31,6 +29,9 @@ public interface MemojangDAO {
 	
 	public int countPaging() throws Exception;
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam);
+	
+	public List<MemojangVO> listSearch(Map<String, String> searchParam);	// 타인메모모아보기
+	public int listSearchCount(MemojangVO vo) throws Exception;
 	
 	public void bookmarkAdd(BookmarkVO vo) throws Exception;
 	public void bookmarkDelete(BookmarkVO vo) throws Exception;

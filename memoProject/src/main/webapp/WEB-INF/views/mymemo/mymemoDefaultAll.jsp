@@ -38,7 +38,7 @@
 		</div>
 	</div>
 	<div id="content">
-		<input type="text" name="input" class="input" id="search-input">
+		<input type="text" name="input" class="input" id="search-input" value='${cri.keyword}' />
 		<button type="reset" class="search" id="search-btn"></button>
 	</div>
 </div><!-- div1 of end -->
@@ -199,7 +199,7 @@ function goModal(memo_no) {
 					newNode += "<p id='memoP3'>글쓴이: "+data.memo_name+"</p>";
 					newNode += "<p id='memoP4'>"+data.memo_title+"</p>";
 					newNode += "<p id='memoP5'>"+data.memo_contents+"</p>";
-					newNode += "<p>"+data.book_likecheck+"</p>"
+					newNode += "<br><br><br>"
 					if(data.memo_open == 0) {
 						newNode += "<input type='radio' name='memo_open' id='memo_open' value='0' checked='checked'><span>공개</span>";
 						newNode += "<input type='radio' name='memo_open' id='memo_open' value='1'><span>비공개</span> ";
@@ -243,6 +243,7 @@ function goModal(memo_no) {
 	// 페이지 로딩 시 첫 실행
 	readOldNotify(startIndex);
 	
+	
 	// 더보기 실행함수 **
 	function readOldNotify(index){
 		var mem_no = $('#mem_no').val();
@@ -255,7 +256,7 @@ function goModal(memo_no) {
 			data: {
 				mem_no: mem_no,
 				startIndex: index,
-				endIndex: _endIndex
+				endIndex: _endIndex,
 			},
 			url: "${contextPath}/mymemo/searchMoreNotify",
 			success: function (data, textStatus) {
@@ -290,6 +291,73 @@ function goModal(memo_no) {
 
 		});
 	}
+	
+	// enter시 검색 ajax
+	$("#search-input").keyup(function(e){
+		if(e.keyCode == 13)  {
+			var oldSearchListCnt = '${listCountSearch}';
+			console.log("oldListCnt: " + oldListCnt);
+			// 조회 인덱스
+			var startIndex = 1;	// 인덱스 초기값
+			var searchStep = 5;	// 5개씩 로딩
+			
+			$('#Grid *').remove();		// Grid 내부요소만 삭제위해 *붙임
+			readOldNotifySearch(startIndex);
+			
+			
+			function readOldNotifySearch(index){
+				var mem_no = $('#mem_no').val();
+				var keyword = $('#search-input').val();
+				console.log("???: "+mem_no);
+				console.log("keyword?: "+keyword);
+				var _endIndex = index+searchStep-1;	// endIndex설정
+				$.ajax({
+					type: "get",
+					async: "true",
+					dataType: "json",
+					data: {
+						mem_no: mem_no,
+						startIndex: index,
+						endIndex: _endIndex,
+						keyword: keyword
+					},
+					url: "${contextPath}/mymemo/searchList",
+					success: function (data, textStatus) {
+						console.log("data: " + JSON.stringify(data));
+						var NodeList = "";
+						for(i = 0; i < data.length; i++){
+							var newNode = "<li id='oneMemo' onclick='goModal("+data[i].memo_no+")'>";
+							newNode += "<p id='p1'>"+data[i].memo_no+"</p>"
+							newNode += "<p id='p2'>"+data[i].memo_name+"</p>"
+							newNode += "<p id='p3'>"+data[i].memo_title+"</p>"
+							newNode += "<p>"+data[i].memo_writedate+"</p></li>"
+							NodeList += newNode;
+						}
+						NodeList += "<button id='searchMoreNotify'><span class='material-icons-outlined'>expand_more</span></button>"
+						$(NodeList).appendTo($("#Grid")).slideDown();
+						console.log("NodeList: "+newNode);
+						
+						// 더보기 클릭시
+						$('#searchMoreNotify').click(function(){
+							startIndex += searchStep;
+							readOldNotifySearch(startIndex);
+							$('#searchMoreNotify').remove();
+						})
+
+						// 더보기 버튼 삭제
+						if(startIndex + searchStep > oldSearchListCnt){
+							$('#searchMoreNotify').remove();
+						}	 		
+					},error:function(request,status,error){
+			            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			           }
+
+				});
+			}
+			
+			
+		}
+	});
 	
 	
 	

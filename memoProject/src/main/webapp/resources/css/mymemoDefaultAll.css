@@ -433,9 +433,10 @@
 #p2 {
 	position: relative;
     top: -42px;
-    left: 220px;
+    left: 180px;
+    width: 50px;
     font-size: 16px;
-    text-align: left;
+    text-align: right;
 }
 #p3 {
 	position: relative;

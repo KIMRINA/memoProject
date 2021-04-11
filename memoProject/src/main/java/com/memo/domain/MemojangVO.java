@@ -21,6 +21,8 @@ public class MemojangVO {
 	
 	private int book_likecheck;
 	
+	private String keyword;
+	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date memo_writedate;
 	

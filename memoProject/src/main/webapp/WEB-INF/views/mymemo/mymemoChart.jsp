@@ -12,23 +12,86 @@
 <title>MEMOZZANG 나의메모모아보기 - 차트로 모아보기</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript"></script>
 
+<link rel="stylesheet" href=https://gitcdn.xyz/repo/octoshrimpy/blokkfont/master/blokkfont.css type="text/css">
 <link rel="stylesheet" href="../resources/css/mymemoDefaultAll.css" type="text/css">
 <style>
 #div4 {
 	position: relative;
-    top: 70px;
-    left: 200px;
+    top: 200px;
+    left: 150px;
     width: 1200px;
 }
 #div5{
 	position: relative;
-    top: -330px;
+    top: -200px;
     left: 800px;
-    width: 500px;
+    background: aliceblue;
+    width: 600px;
+    height: 400px;
 }
+.wordcloud {
+	position: relative;
+    top: -370px;
+}
+
+/* 말풍선 */
+.box2 {
+  width: 300px;
+  margin: 50px auto;
+  border: 4px solid #00bfb6;
+  padding: 20px;
+  text-align: center;
+  font-weight: 900;
+  color: #00bfb6;
+  font-family: arial;
+  position: relative;
+  background-color: rgba( 255, 255, 255, 0.5 );
+}
+
+
+/* speech bubble 9 */
+
+.sb9:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #00bfb6;
+  border-bottom: 10px solid transparent;
+  right: 50%;
+  bottom: -23px;
+}
+
+.sb9:after {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fff;
+  border-bottom: 10px solid transparent;
+  right: 50%;
+  bottom: -18px;
+}
+
+#div4_1 {
+	position: absolute;
+    top: 280px;
+    left: 280px;
+}
+#div5_1 {
+	position: absolute;
+    top: 280px;
+    left: 920px;
+}
+
 </style>
 </head>
 
@@ -50,12 +113,19 @@
 
 
 <!--Div that will hold the pie chart-->
+
+<div id="div4_1">
+	<div class="box2 sb9">날짜별 그래프</div>
+</div>
+<div id="div5_1">
+	<div class="box2 sb9">가장 많이 쓴 키워드는?</div>
+</div>
 <div id="div4">
 	<div id="chart_div" style="width: 600px; height: 400px;"></div>
 </div>
 <div id="div5">
-	<div id="wordtree_basic" style="width: 600px; height: 400px;"></div>
-	<!-- <div id="wordcloud"></div> -->
+	<!-- <div id="wordtree_basic" style="width: 600px; height: 400px;"></div> -->
+	<div id="wordcloud"></div>
 </div>
 
 <form name="formMod" method="post" action="">
@@ -152,13 +222,13 @@ function drawChart() {
     
 </script>
 <script>
-var mem_no = $('#mem_no').val();
+/* var mem_no = $('#mem_no').val();
 console.log("mem_no?: "+mem_no);
 
 google.charts.load('current', {packages:['wordtree']});
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawChart); 
 
-function drawChart() {
+function drawChart() {*/
 	/* var jsonData = $.ajax({
 		url : "/mymemo/contentChart",
 		dataType : "json",
@@ -169,7 +239,7 @@ function drawChart() {
 		}).responseText;
 	console.log(jsonData); */
 	
-   var data = google.visualization.arrayToDataTable(
+	/*   var data = google.visualization.arrayToDataTable(
     [ ['Phrases'],
       ['cats are better than dogs'],
       ['cats eat kibble'],
@@ -201,12 +271,13 @@ function drawChart() {
 
   var chart = new google.visualization.WordTree(document.getElementById('wordtree_basic'));
   chart.draw(data, options);
-}
+} 
+*/
 </script>
 
 <script>
 //wordcloud
-/* var wordcloudlist = $.ajax({
+ var wordcloudlist = $.ajax({
 		
 		type: "GET",
 	    url: "/mymemo/wordcloud",
@@ -218,7 +289,7 @@ function drawChart() {
 	    async: false
 		}).responseText; 
   
-   var wordcloudtest = [{"subject":"맨유","mount":40},{"subject":"맨사타","mount":15},{"subject":"첼시","mount":10},{"subject":"토트넘","mount":35},{"subject":"리버풀","mount":30},{"subject":"인천유나이티드","mount":20}];
+   var wordcloudtest = [{"memo_title":"dd","mount":40}];
    
  	  var x = JSON.parse(wordcloudlist);
      var y = wordcloudtest;
@@ -232,7 +303,7 @@ function drawChart() {
            .range([0.50]);//표시할 범위, 출력 크기
            //ex)"#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"
 
-   d3.layout.cloud().size([800, 300]) //[width,height]
+   d3.layout.cloud().size([600, 400]) //[width,height]
            .words(x)
            .rotate(0)
            .fontSize(function(d) { return d.mount; })
@@ -241,8 +312,8 @@ function drawChart() {
    
    function draw(words) {
        d3.select("#wordcloud").append("svg")//wordcloud 테이블에 svg를 붙이고
-               .attr("width", 850)
-               .attr("height", 350)
+               .attr("width", 600)
+               .attr("height", 400)
                .attr("class", "wordcloud")
                .append("g")
                .attr("transform", "translate(320,200)")
@@ -254,8 +325,8 @@ function drawChart() {
                .attr("transform", function(d) {
                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                })
-               .text(function(d) { return d.subject; });
-   } */
+               .text(function(d) { return d.memo_title; });
+   }
 </script>
 </body>
 </html>

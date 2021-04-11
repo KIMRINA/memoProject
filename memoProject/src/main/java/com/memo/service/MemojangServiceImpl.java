@@ -171,4 +171,14 @@ public class MemojangServiceImpl implements MemojangService {
 		return dao.contentChart(memNo);
 	}
 
+	@Override
+	public List<MemojangVO> listSearch(Map<String, String> searchParam) {
+		return dao.listSearch(searchParam);
+	}
+
+	@Override
+	public int listSearchCount(MemojangVO vo) throws Exception {
+		return dao.listSearchCount(vo);
+	}
+
 }

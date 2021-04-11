@@ -73,7 +73,7 @@ public class MemojangCtrl {
 
 	// 힌눈에 모아보기
 	@GetMapping("/mymemo/mymemoDefaultAll")
-	public void mymemoDefaultAll(@ModelAttribute MemberDTO dto, HttpSession session, Criteria cri, Model model)
+	public void mymemoDefaultAll(@ModelAttribute("cri") MemojangVO cri, @ModelAttribute MemberDTO dto, HttpSession session, Model model)
 			throws Exception {
 		log.info("** mymemoDefaultAll **");
 
@@ -84,6 +84,11 @@ public class MemojangCtrl {
 
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
 		MemberDTO after = memService.readUser(username);
+		
+		cri.setMem_no(login.getMem_no());
+		cri.setKeyword("");
+		
+		model.addAttribute("listCountSearch", service.listSearchCount(cri));
 		
 		//model.addAttribute("listAll", service.memoListAll(dto.getMem_no()));
 		model.addAttribute("listCount", service.listCountCriteria());
@@ -107,6 +112,31 @@ public class MemojangCtrl {
 
 		// startIndex ~ endIndex 범위에 해당하는 list 조회
 		List<MemojangVO> addList = service.listCriteria(searchParam);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(addList);
+		return jsonStr;
+	}
+	
+	// 검색리스트
+	@RequestMapping(value = "/mymemo/searchList", produces = "application/text;charset=UTF-8", method = RequestMethod.GET)
+	@ResponseBody
+	public String searchList(@RequestParam Map<String, String> param) throws Exception {
+		log.info("** searchList **");
+
+		Map<String, String> searchParam = new HashMap<String, String>(); // search 파라미터 생성
+		String aa = searchParam.put("startIndex", param.get("startIndex"));
+		String bb = searchParam.put("endIndex", param.get("endIndex"));
+		String dd = searchParam.put("mem_no", param.get("mem_no"));
+		String cc = searchParam.put("keyword", param.get("keyword"));
+
+		System.out.println("?: " + aa);
+		System.out.println("??: " + bb);
+		System.out.println("???: " + dd);
+
+		// startIndex ~ endIndex 범위에 해당하는 list 조회
+		// List<MemojangVO> addList = service.listCriteria(searchParam);
+		List<MemojangVO> addList = service.listSearch(searchParam);
 
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(addList);

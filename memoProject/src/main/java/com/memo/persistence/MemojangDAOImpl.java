@@ -144,6 +144,16 @@ public class MemojangDAOImpl implements MemojangDAO {
 	public List<ContentChartDTO> contentChart(Integer memNo) {
 		return session.selectList(namespace + ".contentChart", memNo);
 	}
+
+	@Override
+	public List<MemojangVO> listSearch(Map<String, String> searchParam) {
+		return session.selectList(namespace + ".listSearch", searchParam);
+	}
+
+	@Override
+	public int listSearchCount(MemojangVO vo) throws Exception {
+		return session.selectOne(namespace + ".listSearchCount",vo);
+	}
 	
 
 }

@@ -24,6 +24,9 @@ public interface MemojangService {
 	public int listCountCriteria() throws Exception;
 	public List<MemojangVO> listCriteria(Map<String, String> searchParam);
 	
+	public List<MemojangVO> listSearch(Map<String, String> searchParam);	// 타인메모모아보기
+	public int listSearchCount(MemojangVO vo) throws Exception;
+	
 	public void bookmarkAdd(BookmarkVO vo) throws Exception;
 	public void bookmarkDelete(BookmarkVO vo) throws Exception;
 	public int countBookPaging() throws Exception;

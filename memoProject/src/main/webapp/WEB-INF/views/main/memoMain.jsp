@@ -451,12 +451,12 @@
       	<p><span style="font-size: 14pt;"><b><span style="font-size: 21pt;">메모를 작성하시려면</span></b></span></p>
       	<p><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">회원가입이 필요합니다</span></b></span></p>
       	<div style="background-color:#b7c7c3;padding-bottom: 10px;padding-top: 10px;">
-      		<p id="p1"><b><span style="font-size: 16pt;">일반회원가입</span></b><button id="btn1" class="slide" onclick="goJoin()">&nbsp;</button></p>
+      		<p id="p1"><b><span style="font-size: 16pt;">회원가입</span></b><button id="btn1" class="slide" onclick="goJoin()">&nbsp;</button></p>
       	</div>
-        <div id="div1">
-      		<p style="text-align: center; line-height: 1.5;"><b><span style="font-size: 16pt;">소셜회원가입</span></b></p>
+<!--        <div id="div1">
+       		<p style="text-align: center; line-height: 1.5;"><b><span style="font-size: 16pt;">소셜회원가입</span></b></p>
       		<button id="btn2" class="slide2" >&nbsp;</button><button id="btn3" class="slide3" >&nbsp;</button>
-      	</div>
+      	</div> -->
         <p style="text-align: center; line-height: 1.5;"><b><span style="color: rgb(255, 0, 0); font-size: 14pt;"></span></b></p>
         <p style="text-align: center; line-height: 1.5;"><span style="font-size: 14pt;"><br /></span></p>
         <p><br /></p>
