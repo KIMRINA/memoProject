@@ -1,2 +1,2 @@
 # memozzang project
-![mainPage](./images/memozzangMain.PNG)
+![mainPage](./images/memozzangMain.png)
