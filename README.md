@@ -20,6 +20,7 @@
   2. 회원가입 및 로그인
   3. 나의메모 모아보기
   4. 타인메모 모아보기
+  5. 회원정보수정
   
 * 마치며
   1. 프로젝트 보완사항
@@ -77,30 +78,67 @@
 ## 메뉴 및 기능 설명
  #### 1. 메인
  ![mainPage](./images/memozzangMain.png)
- 메인화면이다.
- <br>
+ 메인화면이다.<br>
+ 
+ ![mainPage](./images/menu.png)
+ 왼쪽 햄버거 버튼을 클릭하면 데코레이션을 고정시킨 메뉴가 나온다.<br>
+ 
  ![mainPage](./images/NoLoginMain.png)
- 로그인 하지 않은 상태에서 등록 버튼을 누르게 되면 회원가입 모달 화면창이 뜸.
- <br>
+ 로그인 하지 않은 상태에서 등록 버튼을 누르게 되면 회원가입 모달 화면창이 뜸.<br>
+ 
  ![mainPage](./images/memoCreate.png)
- 회원가입을 하고나서 로그인한 상태의 메모 등록 화면(메인) 이며, quill editor 사용으로 다양한 html 효과로 저장 및 보기 가능.
- <br>
+ 회원가입을 하고나서 로그인한 상태의 메모 등록 화면(메인) 이며, quill editor 사용으로 다양한 html 효과로 저장 및 보기 가능.<br>
+ 
  #### 2. 회원가입 및 로그인
  ![mainPage](./images/agree.png)
- 회원가입 약관 동의 화면이다. 상단의 체크박스를 클릭하면 모두 선택되게 구현함.
- <br>
+ 회원가입 약관 동의 화면이다. 상단의 체크박스를 클릭하면 모두 선택되게 구현함.<br>
+ 
  ![mainPage](./images/join.png)
  회원가입 화면이다. 전체적으로 정규식을 사용하여 유효성 검사를 하도록 구현함.<br>
  이메일 - ajax를 사용하여 중복확인을 누르면 현재 사용 가능한 ID 인지 확인이 가능.<br>
  비밀번호 - ajax를 사용하여 패스워드를 한번더 체크 가능.<br>
- 휴대폰번호 - ajax를 사용하여 정규식에 해당하는 문자만 입력 가능 하게 구현.
- <br>
+ 휴대폰번호 - ajax를 사용하여 정규식에 해당하는 문자만 입력 가능 하게 구현.<br><br>
+ 
  ![mainPage](./images/securitu.png)
- Spring security의 bcryptPasswordEncoder 암호화 방식으로 회원가입을 하게되면 DB에 다음과 같이 비밀번호가 저장된다.
- <br>
+ Spring security의 bcryptPasswordEncoder 암호화 방식으로 회원가입을 하게되면 DB에 다음과 같이 비밀번호가 저장된다.<br>
+ 
  #### 3. 나의메모 모아보기
  ![mainPage](./images/memoList.png)
  한눈에 모아보기 화면이다. ajax로 페이징을 구현하여, 기본으로 5개씩 보이게끔 하고 더보기도 동적으로 구현하였다.<br>
- 현재 화면에서 메모지를 클릭하면 메모 고유 번호를 전달하여 메모를 하나씩 읽을 수 있다.<
+ 현재 화면에서 메모지를 클릭하면 메모 고유 번호를 전달하여 메모를 하나씩 읽을 수 있다.<br>
+ 
+ ![mainPage](./images/search.png)
+ 상단의 돋보기 버튼을 클릭한 후 검색할 키워드를 적어서 엔터키를 누르면 검색과 동시에 정렬이 새로 되게 구현함.<br>
+ 
+ ![mainPage](./images/oneRead.png)
+ 메모 read 화면. 상단의 하트버튼을 누르면 북마크가 된다. 하단의 수정&삭제 버튼으로 수정과 삭제를 할 수 있음.<br>
+ 
+ ![mainPage](./images/bookmark.png)
+ 북마크로 모아보기 화면이다. 사용자가 북마크 한 메모들이 모여져있는 화면이다.
+ 
+ ![mainPage](./images/calendar.png)
+ 캘린더로 모아보기 화면이다. full calendar api를 사용하였다. 사용자가 글쓴 날짜에 맞춰서 달력으로 확인할 수 있다.<br>
+ 
+ ![mainPage](./images/calendarRead.png)
+ 캘린더로 모아보기 에서도 사용자가 글쓴 날짜의 메모를 클릭해서 하나씩 읽을 수 있다.<br>
+ 
+ ![mainPage](./images/chart.png)
+ 차트로 모아보기 화면이다. 왼쪽의 날짜별 그래프는 Google chart, 오른쪽의 가장 많이 쓴 키워드 그래프는 d3.js wordcloud로 구현하였다.<br>
+ 차트로 모아봄 으로써 사용자의 데이터 시각화를 증가시켰다.<br><br>
+ 
+ #### 4. 타인메모 모아보기
+ ![mainPage](./images/othersMemo.png)
+ 타인메모 모아보기 화면이다. 비로그인 상태에서도 확인 할 수 있다. 타인메모는 공개된 게시물 중 북마크에 등록된 기준으로 게시가 된다.<br><br>
+ 
+ #### 5. 회원정보수정
+ ![mainPage](./images/memberModify.png)
+ 회원정보수정 전 비밀번호 확인으로 한번 더 검증하였다.<br>
+ 
+ ![mainPage](./images/memberModify2.png)
+ 회원정보수정 화면이다. 회원 가입과 기능이 비슷하다.<br>
+ 
+ ![mainPage](./images/memberDelete.png)
+ 회원정보수정 화면에서 상단의 회원탈퇴를 클릭하면 나오는 회원탈퇴 페이지이다.<br>
+ 
  
  
