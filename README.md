@@ -68,7 +68,7 @@
   &nbsp;&nbsp;Back-end: Spring Framework 5.1.4.RELEASE, Spring security 4.1.3.RELEASE, myBatis 3.5.6, Tomcat 8.5 <br/>
   &nbsp;&nbsp;Data Base: Oracle 11g Release 11.2.0.1.0, Sql Developer 19.2.1.247<br/>
   &nbsp;&nbsp;Web browser: Chrome<br/>
-  
+  <br><br>
   
 ## DataBase 테이블 설계
  #### 1. DB 테이블 구성도
@@ -139,6 +139,26 @@
  
  ![mainPage](./images/memberDelete.png)
  회원정보수정 화면에서 상단의 회원탈퇴를 클릭하면 나오는 회원탈퇴 페이지이다.<br>
+ 
+ <br><br>
+ 
+ ## 마치며
+  #### 1. 프로젝트 보완사항
+  &nbsp;&nbsp;1. Admin 페이지의 부재.<br>
+  &nbsp;&nbsp;&nbsp; Spring security 사용으로 권한은 나눠진 상태이지만 본 프로젝트인 member 페이지 밖에 만들지 못함. 시간적 여유가 되면 admin페이지 개발 예정.<br>
+  &nbsp;&nbsp;2. ID & 비밀번호 찾기의 부재.<br>
+  &nbsp;&nbsp;&nbsp; email을 통한 비밀번호 찾기가 계획에는 있었으나 현재 미개발 상태.<br>
+  &nbsp;&nbsp;3. TTS 기능을 사용하여 메모 읽기.<br>
+  &nbsp;&nbsp;&nbsp; 계획에는 있었으나 현재 미개발.<br><br>
+  
+  #### 2. 소감
+  &nbsp;&nbsp; 프로젝트를 만드는 초기에는 Spring에 대한 이해도가 낮은 상태로 진행하였습니다. Spring security도 모르는 상태에서 테스트로 구현해가며 하나하나 살을 붙여 나갈때의 그 쾌감이 저에겐 개발을 하게만드는 원동력이 되는 듯 합니다. C++ 코딩을 하다, Java를 손 놓은지 5개월 만에 해본 웹 개발은 다시금 본인의 갈피를 정해준 것 같습니다. 초기 계획에서 못한 부분들이 아쉽긴 하지만 시간이 언제가 되었든 차차 구현해갈 생각입니다.<br>
+  
+&nbsp;&nbsp; 짧은 시간이었지만 본 memoProject는 저에게는 많은 경험이 되었고, 저의 부족한 부분과 제가 할 수 있는 부분을 구별할 수 있는 능력을 가지게 해주었다고 생각합니다. 그렇기에 부족한 부분을 배우고 알고 있는 부분은 더욱 자세히 알고자 합니다.<br>
+
+&nbsp;&nbsp;부족한 부분이 많은 프로젝트인 것 같지만, 귀엽게 봐주셨으면 합니다. 저는 이러한 경험을 통해 쌓은 경험치는 사라지지 않기 때문에 부끄러우면서도 자랑스럽다고 자부합니다. 이상 글을 마치겠습니다.<br>
+<br>
+  
  
  
  
