@@ -16,6 +16,10 @@
   1. DB 테이블 구성도
   
 * 메뉴 및 기능 설명
+  1. 메인
+  2. 회원가입 및 로그인
+  3. 나의메모 모아보기
+  4. 타인메모 모아보기
   
 * 마치며
   1. 프로젝트 보완사항
@@ -63,6 +67,40 @@
   &nbsp;&nbsp;Back-end: Spring Framework 5.1.4.RELEASE, Spring security 4.1.3.RELEASE, myBatis 3.5.6, Tomcat 8.5 <br/>
   &nbsp;&nbsp;Data Base: Oracle 11g Release 11.2.0.1.0, Sql Developer 19.2.1.247<br/>
   &nbsp;&nbsp;Web browser: Chrome<br/>
-    
+  
+  
+## DataBase 테이블 설계
+ #### 1. DB 테이블 구성도
+ ![mainPage](./images/dbTable.png)
 
-   
+
+## 메뉴 및 기능 설명
+ #### 1. 메인
+ ![mainPage](./images/memozzangMain.png)
+ 메인화면이다.
+ <br>
+ ![mainPage](./images/NoLoginMain.png)
+ 로그인 하지 않은 상태에서 등록 버튼을 누르게 되면 회원가입 모달 화면창이 뜸.
+ <br>
+ ![mainPage](./images/memoCreate.png)
+ 회원가입을 하고나서 로그인한 상태의 메모 등록 화면(메인) 이며, quill editor 사용으로 다양한 html 효과로 저장 및 보기 가능.
+ <br>
+ #### 2. 회원가입 및 로그인
+ ![mainPage](./images/agree.png)
+ 회원가입 약관 동의 화면이다. 상단의 체크박스를 클릭하면 모두 선택되게 구현함.
+ <br>
+ ![mainPage](./images/join.png)
+ 회원가입 화면이다. 전체적으로 정규식을 사용하여 유효성 검사를 하도록 구현함.<br>
+ 이메일 - ajax를 사용하여 중복확인을 누르면 현재 사용 가능한 ID 인지 확인이 가능.<br>
+ 비밀번호 - ajax를 사용하여 패스워드를 한번더 체크 가능.<br>
+ 휴대폰번호 - ajax를 사용하여 정규식에 해당하는 문자만 입력 가능 하게 구현.
+ <br>
+ ![mainPage](./images/securitu.png)
+ Spring security의 bcryptPasswordEncoder 암호화 방식으로 회원가입을 하게되면 DB에 다음과 같이 비밀번호가 저장된다.
+ <br>
+ #### 3. 나의메모 모아보기
+ ![mainPage](./images/memoList.png)
+ 한눈에 모아보기 화면이다. ajax로 페이징을 구현하여, 기본으로 5개씩 보이게끔 하고 더보기도 동적으로 구현하였다.<br>
+ 현재 화면에서 메모지를 클릭하면 메모 고유 번호를 전달하여 메모를 하나씩 읽을 수 있다.<
+ 
+ 
