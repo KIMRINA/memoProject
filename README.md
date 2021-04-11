@@ -4,6 +4,7 @@
 <br>
 만든이 : 김린아<br>
 메일 : aem205@gmail.com<br>
+project github url : https://github.com/KIMRINA/memoProject<br>
 <br>
 <br>
 ## 목차
