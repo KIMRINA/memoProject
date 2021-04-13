@@ -10,7 +10,7 @@ project github url : https://github.com/KIMRINA/memoProject<br>
 ## 목차
 * 들어가며
   1. 프로젝트 소개  
-    1-1. 프로젝트 기능
+    1-1. 프로젝트 기능<br>
     1-2. 개발 환경
     
 * DataBase 테이블 설계
