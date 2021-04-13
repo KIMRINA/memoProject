@@ -79,7 +79,7 @@ project github url : https://github.com/KIMRINA/memoProject<br>
 ## 메뉴 및 기능 설명
  #### 1. 메인
  ![mainPage](./images/memozzangMain.png)
- 메인화면이다.<br>
+ 메인화면이다<br>
  
  ![mainPage](./images/menu.png)
  왼쪽 햄버거 버튼을 클릭하면 데코레이션을 고정시킨 메뉴가 나온다.<br>
