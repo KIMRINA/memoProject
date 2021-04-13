@@ -1,4 +1,4 @@
-# memozzang project
+# 🚀memozzang project
 ![mainPage](./images/memozzangMain.png)
 <br>
 <br>
@@ -7,7 +7,7 @@
 project github url : https://github.com/KIMRINA/memoProject<br>
 <br>
 <br>
-## 목차
+## 🚀목차
 * 들어가며
   1. 프로젝트 소개  
     1-1. 프로젝트 기능<br>
@@ -28,7 +28,7 @@ project github url : https://github.com/KIMRINA/memoProject<br>
   2. 소감
 
 
-## 들어가며
+## 🚀들어가며
  #### 1. 프로젝트 소개
  
 &nbsp;&nbsp;본 프로젝트를 시작하게 된 계기는 웹 프로그래밍의 기본 소양이라 할 수 있는 기본적인 기능인 CRUD가 가능한 메모장 사이트를 목적으로 개발하게 된 프로젝트 입니다. 혼자 독학으로 관련 기술들을 학습한 이후 2주간 제작한 개인 프로젝트 입니다. 아직은 다소 미흡하지만 기본기능은 다 구현한 프로젝트 입니다.
@@ -71,12 +71,12 @@ project github url : https://github.com/KIMRINA/memoProject<br>
   &nbsp;&nbsp;Web browser: Chrome<br/>
   <br><br>
   
-## DataBase 테이블 설계
+## 🚀DataBase 테이블 설계
  #### 1. DB 테이블 구성도
  ![mainPage](./images/dbTable.png)
 
 
-## 메뉴 및 기능 설명
+## 🚀메뉴 및 기능 설명
  #### 1. 메인
  ![mainPage](./images/memozzangMain.png)
  메인화면이다<br>
@@ -143,7 +143,7 @@ project github url : https://github.com/KIMRINA/memoProject<br>
  
  <br><br>
  
- ## 마치며
+ ## 🚀마치며
   #### 1. 프로젝트 보완사항
   &nbsp;&nbsp;1. Admin 페이지의 부재.<br>
   &nbsp;&nbsp;&nbsp; Spring security 사용으로 권한은 나눠진 상태이지만 본 프로젝트인 member 페이지 밖에 만들지 못함. 시간적 여유가 되면 admin페이지 개발 예정.<br>
