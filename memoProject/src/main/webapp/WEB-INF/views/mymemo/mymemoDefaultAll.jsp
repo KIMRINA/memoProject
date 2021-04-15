@@ -79,6 +79,9 @@
 		<span class="material-icons-outlined" id="modalExitBtn" onClick='close_pop("/mymemo/mymemoDefaultAll");'>
 			close
 		</span>
+		<span class="material-icons-outlined" id="sound" onClick='soundTTS()'>
+			volume_up
+		</span>
   		<div id="quillEditor">
   		</div>
 	</div>
@@ -161,9 +164,49 @@ searchBtn.addEventListener("click", expand);
 
 
 <script>
+/* TTS */
+var voices = [];
+	function setVoiceList() {
+		voices = window.speechSynthesis.getVoices();
+	}
+	setVoiceList();
+	if (window.speechSynthesis.onvoiceschanged !== undefined) {
+		window.speechSynthesis.onvoiceschanged = setVoiceList;
+	}
+	function speech(txt) {
+		if(!window.speechSynthesis) {
+			alert("음성 재생을 지원하지 않는 브라우저입니다. 크롬, 파이어폭스 등의 최신 브라우저를 이용하세요");
+			return;
+		}
+		var lang = 'ko-KR';
+		var utterThis = new SpeechSynthesisUtterance(txt);
+		utterThis.onend = function (event) {
+			console.log('end');
+		};
+		utterThis.onerror = function(event) {
+			console.log('error', event);
+		};
+		var voiceFound = false;
+		for(var i = 0; i < voices.length ; i++) {
+			if(voices[i].lang.indexOf(lang) >= 0 || voices[i].lang.indexOf(lang.replace('-', '_')) >= 0) {
+			utterThis.voice = voices[i];
+			voiceFound = true;
+			}
+		}
+		if(!voiceFound) {
+			alert('voice not found');
+			return;
+		}
+		utterThis.lang = lang;
+		utterThis.pitch = 1;
+		utterThis.rate = 1; //속도
+		window.speechSynthesis.speak(utterThis);
+}
+	
 
 var book_check = 0;
 var memo_nono = "";
+var memo_content = "";
 // memo 하나 읽기 ajax
 function goModal(memo_no) {
 		$('#myModal').show();
@@ -210,6 +253,8 @@ function goModal(memo_no) {
 					NodeList += newNode;
 					console.log("NodeList: "+NodeList);
 					
+					
+					
 					if(data.book_likecheck>0) {
 				        console.log("heartval: "+data.book_likecheck);
 				        $("#heart").prop("src", "/resources/images/like2.png");
@@ -223,12 +268,20 @@ function goModal(memo_no) {
 				
 				book_check = data.book_likecheck;
 				memo_nono = data.memo_no;
+				memo_content = data.memo_contents;
 				
 			},error:function(request,status,error){
 	            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	        }
 		});
-}	
+}
+
+function soundTTS() {
+	console.log("TTS");
+	console.log("memo_content?: "+memo_content)
+	var t = memo_content;
+    speech(t.value);
+}
 
 
 // 페이징 ajax

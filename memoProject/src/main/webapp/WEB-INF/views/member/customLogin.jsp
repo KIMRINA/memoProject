@@ -50,7 +50,7 @@
 #btn1 {
   position: relative;
   height: 45px;
-  width: 200px;
+  width: 400px;
   margin: 10px 7px;
   padding: 5px 5px;
   font-weight: 700;
@@ -154,6 +154,9 @@
 			</div>
 			<div id="div4">
 				<button id="btn1" class="slide">&nbsp;</button>
+				<br>
+				<a>ID로 찾기</a>&nbsp;|&nbsp;
+				<a>PW로 찾기</a>
 				<input type = "hidden" name = "${_csrf.parameterName }" value = "${_csrf.token }"/>
 			</div>
 		</form>

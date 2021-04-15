@@ -527,3 +527,13 @@
     z-index: 2;
     cursor: pointer;
  }
+ 
+ /* TTS */
+ #sound {
+ 	position: absolute;
+    right: 175px;
+    top: 9px;
+    z-index: 2;
+    cursor: pointer;
+ }
+ 

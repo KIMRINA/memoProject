@@ -26,7 +26,6 @@
 .globalmenu{
 		width: 1506px;
 		height: 190px;
-		border: 2px solid #09c;
 		font-family: 'Love Ya Like A Sister', cursive;
 		background-color: rgba( 255, 255, 255, 0.3 );
 	}
@@ -34,7 +33,6 @@
 		float: left;
 		width: 300px;
 		height: 1001px;
-		border: 2px solid red;
 	}
 	.globalmenu .middium-title{
     	position: absolute;
@@ -48,13 +46,11 @@
 	.foot{
 		width: 1506px;
 		height: 44px;
-		border: 2px solid purple;
 		background-color: rgba( 255, 255, 255, 0.3 );
 	}
 	.main .content .article{
 		width: 1506px;
 		height: 850px;
-		border: 2px solid blue;
 		background-color: rgba( 255, 255, 255, 0.3 );
 	}
 	
@@ -316,7 +312,7 @@ body
 				<decorator:body />
 			</div>
 	</div>
-	<div class="foot">foot</div>
+	<div class="foot"></div>
 
 
 
